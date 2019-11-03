@@ -1,11 +1,15 @@
 package br.com.ges.api.model;
 
 import java.time.LocalDate;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -18,37 +22,51 @@ public class Empresa {
 	private int id;
 
 	@NotNull
+	@Column(name="razao_social") 
 	private String razaoSocial;
 
 	@NotNull
+	@Column(name="contato_responsavel") 
 	private String contatoResponsavel;
 
 	@NotNull
+	@Column(name="endereco") 
 	private String endereco;
 
 	@NotNull
+	@Column(name="cep") 
 	private String cep;
 
 	@NotNull
+	@Column(name="bairro")
 	private String bairro;
 
 	@NotNull
+	@Column(name="cidade")
 	private String cidade;
 
 	@NotNull
+	@Column(name="uf")
 	private char uf;
 
 	@NotNull
+	@Column(name="numero")
 	private int numero;
 
 	@NotNull
+	@Column(name="telefone")
 	private String telefone;
 
 	@NotNull
+	@Column(name="email")
 	private String email;
 
 	@NotNull
+	@Column(name="prazo_convenio")
 	private LocalDate prazoConvenio;
+	
+	@OneToMany(mappedBy = "empresa", cascade= CascadeType.ALL)
+	private Set<Contrato> contrato;
 
 	public int getId() {
 		return id;
@@ -144,6 +162,15 @@ public class Empresa {
 
 	public void setPrazoConvenio(LocalDate prazoConvenio) {
 		this.prazoConvenio = prazoConvenio;
+	}
+	
+
+	public Set<Contrato> getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Set<Contrato> contrato) {
+		this.contrato = contrato;
 	}
 
 	@Override
