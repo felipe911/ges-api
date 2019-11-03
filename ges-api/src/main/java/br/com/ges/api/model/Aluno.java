@@ -2,6 +2,7 @@ package br.com.ges.api.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,30 +19,39 @@ public class Aluno {
 	private int id;
 
 	@NotNull
+	@Column(name="nome") 
 	private String nome;
 
 	@NotNull
+	@Column(name="ra")
 	private String ra;
 
 	@NotNull
+	@Column(name="curso")
 	private String curso;
 
 	@NotNull
+	@Column(name="semestre")
 	private int semestre;
 
 	@NotNull
+	@Column(name="periodo")
 	private int periodo;
 
 	@NotNull
+	@Column(name="email")
 	private String email;
 
 	@NotNull
+	@Column(name="telefone")
 	private String telefone;
 
 	@NotNull
+	@Column(name="sexo")
 	private char sexo;
 
 	@NotNull
+	@Column(name="data_vestibular")
 	private LocalDate dataVestibular;
 
 	public int getId() {
