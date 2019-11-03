@@ -19,52 +19,52 @@ public class Aluno {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 
 	@NotNull
-	@Column(name="nome") 
+	@Column(name = "nome")
 	private String nome;
 
 	@NotNull
-	@Column(name="ra")
+	@Column(name = "ra")
 	private String ra;
 
 	@NotNull
-	@Column(name="curso")
+	@Column(name = "curso")
 	private String curso;
 
 	@NotNull
-	@Column(name="semestre")
+	@Column(name = "semestre")
 	private int semestre;
 
 	@NotNull
-	@Column(name="periodo")
+	@Column(name = "periodo")
 	private int periodo;
 
 	@NotNull
-	@Column(name="email")
+	@Column(name = "email")
 	private String email;
 
 	@NotNull
-	@Column(name="telefone")
+	@Column(name = "telefone")
 	private String telefone;
 
 	@NotNull
-	@Column(name="sexo")
+	@Column(name = "sexo")
 	private char sexo;
 
 	@NotNull
-	@Column(name="data_vestibular")
+	@Column(name = "data_vestibular")
 	private LocalDate dataVestibular;
-	
-	@OneToMany(mappedBy = "aluno", cascade= CascadeType.ALL)
+
+	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
 	private Set<Estagio> estagio;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -140,7 +140,6 @@ public class Aluno {
 		this.dataVestibular = dataVestibular;
 	}
 
-
 	public Set<Estagio> getEstagio() {
 		return estagio;
 	}
@@ -153,7 +152,7 @@ public class Aluno {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -166,7 +165,10 @@ public class Aluno {
 		if (getClass() != obj.getClass())
 			return false;
 		Aluno other = (Aluno) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

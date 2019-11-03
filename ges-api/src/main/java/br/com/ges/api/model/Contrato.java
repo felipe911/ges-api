@@ -20,50 +20,49 @@ public class Contrato {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 
 	@NotNull
-	@Column(name="data_inicio")
+	@Column(name = "data_inicio")
 	private LocalDate dataInicio;
 
 	@NotNull
-	@Column(name="data_fim")
+	@Column(name = "data_fim")
 	private LocalDate dataFim;
 
 	@NotNull
-	@Column(name="prorrogado_ate")
+	@Column(name = "prorrogado_ate")
 	private LocalDate prorrogadoAte;
 
 	@NotNull
-	@Column(name="valor_bolsa")
+	@Column(name = "valor_bolsa")
 	private BigDecimal valorBolsa;
 
 	@NotNull
-	@Column(name="agente_integracao")
+	@Column(name = "agente_integracao")
 	private String agenteIntegracao;
 
 	@NotNull
-	@Column(name="supervisor_estagio")
+	@Column(name = "supervisor_estagio")
 	private String supervisorEstagio;
 
 	@NotNull
-	@Column(name="email_supervisor")
+	@Column(name = "email_supervisor")
 	private String emailSupervisor;
 
 	@NotNull
-	@Column(name="observacao")
+	@Column(name = "observacao")
 	private String observacao;
-	
-	@ManyToOne(cascade=CascadeType.ALL)   
-	@JoinColumn(name="empresa_id", referencedColumnName="id",nullable=false) 
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "empresa_id", referencedColumnName = "id", nullable = false)
 	private Empresa empresa;
-	
-	
-	public int getId() {
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -130,7 +129,6 @@ public class Contrato {
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
-	
 
 	public Empresa getEmpresa() {
 		return empresa;
@@ -139,13 +137,12 @@ public class Contrato {
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
-	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -158,7 +155,10 @@ public class Contrato {
 		if (getClass() != obj.getClass())
 			return false;
 		Contrato other = (Contrato) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
