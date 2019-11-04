@@ -1,0 +1,17 @@
+package br.com.ges.api.exception;
+
+public class BusinessException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+
+	private final String errorMessage;
+
+	public BusinessException(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+}
