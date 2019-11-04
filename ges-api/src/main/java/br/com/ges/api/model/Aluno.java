@@ -13,50 +13,63 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "aluno")
 public class Aluno {
 
 	@Id
+	@JsonProperty
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@NotNull
+	@JsonProperty
 	@Column(name = "nome")
 	private String nome;
 
 	@NotNull
+	@JsonProperty
 	@Column(name = "ra")
 	private String ra;
 
 	@NotNull
+	@JsonProperty
 	@Column(name = "curso")
 	private String curso;
 
 	@NotNull
+	@JsonProperty
 	@Column(name = "semestre")
 	private int semestre;
 
 	@NotNull
+	@JsonProperty
 	@Column(name = "periodo")
 	private int periodo;
 
 	@NotNull
+	@JsonProperty
 	@Column(name = "email")
 	private String email;
 
 	@NotNull
+	@JsonProperty
 	@Column(name = "telefone")
 	private String telefone;
 
 	@NotNull
+	@JsonProperty
 	@Column(name = "sexo")
 	private char sexo;
 
 	@NotNull
+	@JsonProperty
 	@Column(name = "data_vestibular")
 	private LocalDate dataVestibular;
 
+	@JsonProperty
 	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
 	private Set<Estagio> estagio;
 
