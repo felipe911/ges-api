@@ -13,7 +13,7 @@ import br.com.ges.api.repository.AlunoRepository;
 @Service
 public class AlunoService {
 
-	private static final String ANE = "Aluno não encontrado";
+	private static final String ANE = "Aluno não encontrado.";
 	private String mensagem = null;
 
 	@Autowired
@@ -39,17 +39,19 @@ public class AlunoService {
 		return this.mensagem;
 	}
 
-	public String atualizar(Long id, Aluno aluno) {
+	public String atualizar(Long id, Aluno aluno) throws BusinessException {
 
 		alunoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ANE));
 
+		verificaDuplicidadeRa(aluno);
+		
 		try {
 			aluno.setId(id);
 			alunoRepository.save(aluno);
 			this.mensagem = "Aluno atualizado com sucesso.";
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			// TODO: Criar Exception correta
 		}
 
 		return this.mensagem;
@@ -62,7 +64,7 @@ public class AlunoService {
 			alunoRepository.deleteById(id);
 			this.mensagem = "Aluno deletado com sucesso.";
 		} catch (Exception e) {
-			// TODO: handle exception
+			// TODO: Criar Exception correta
 		}
 
 		return this.mensagem;
