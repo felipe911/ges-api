@@ -13,95 +13,93 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ges.api.exception.BusinessException;
-import br.com.ges.api.model.Aluno;
-import br.com.ges.api.service.AlunoService;
+import br.com.ges.api.model.Empresa;
+import br.com.ges.api.service.EmpresaService;
 
 @RestController
-@RequestMapping("/aluno")
-public class AlunoController {
-	
+@RequestMapping("/empresa")
+public class EmpresaController {
+
 	@Autowired
-	private AlunoService alunoService;
-	
+	private EmpresaService empresaService;
+
 	/**
 	 * 
-	 * Lista todos Alunos
+	 * Lista todas Empresas
 	 * 
 	 */
-//	@ApiOperation(value = "Lista todos os registros de Alunos")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
+//	@ApiOperation(value = "Lista todos os registros de Empresas")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
 //			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
 //			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@GetMapping(produces = "application/json")
-	public List<Aluno> listar() {
-		return alunoService.listar();
+	public List<Empresa> listar() {
+		return empresaService.listar();
 	}
-	
+
 	/**
 	 * 
-	 * Exibe o registro do aluno
+	 * Exibe o registro da Empresa
 	 * 
 	 */
-//	@ApiOperation(value = "Exibe o registro do aluno")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
+//	@ApiOperation(value = "Exibe o registro da Empresa")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
 //			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
 //			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@GetMapping("/{id}")
-	public Aluno exibir(@PathVariable Long id) throws BusinessException {
-		return alunoService.exibir(id);
+	public Empresa exibir(@PathVariable Long id) throws BusinessException {
+		return empresaService.exibir(id);
 	}
-	
-	
+
 	/**
 	 * 
-	 * Salva uma novo Aluno
+	 * Salva uma nova Empresa
 	 * 
 	 */
-//	@ApiOperation(value = "Armazena um registro de Aluno")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
+//	@ApiOperation(value = "Armazena um registro de Empresa")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
 //			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
 //			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@PostMapping()
-	public String salvar(@RequestBody Aluno aluno) throws BusinessException {
-		return alunoService.salvar(aluno);
+	public String salvar(@RequestBody Empresa empresa) throws BusinessException {
+		return empresaService.salvar(empresa);
 	}
 
-	
 	/**
 	 * 
-	 * Atualiza o registro de um Aluno a partir de seu ID
-	 *  
+	 * Atualiza o registro de uma Empresa a partir de seu ID
+	 * 
 	 */
-//	@ApiOperation(value = "Atualiza um registro de Aluno")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
+//	@ApiOperation(value = "Atualiza um registro de Empresa")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
 //			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
 //			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@PutMapping("/{id}")
-	public String atualizar(@PathVariable Long id, @RequestBody Aluno aluno) throws BusinessException {
-		return alunoService.atualizar(id, aluno);
+	public String atualizar(@PathVariable Long id, @RequestBody Empresa empresa) throws BusinessException {
+		return empresaService.atualizar(id, empresa);
 	}
-	
-	
+
 	/**
-	 * Deleta um registro de Aluno caso ele exista
+	 * Deleta um registro de Empresa caso ele exista
 	 * 
 	 */
-//	@ApiOperation(value = "Deleta um registro de Aluno")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
+//	@ApiOperation(value = "Deleta um registro de Empresa")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
 //			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
 //			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@DeleteMapping("/{id}")
 	public String deletar(@PathVariable Long id) throws BusinessException {
-		return alunoService.deletar(id);
+		return empresaService.deletar(id);
 	}
+
 }

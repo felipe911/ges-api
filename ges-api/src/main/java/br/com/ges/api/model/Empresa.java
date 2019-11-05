@@ -22,6 +22,10 @@ public class Empresa {
 	private Long id;
 
 	@NotNull
+	@Column(name = "cnpj")
+	private String cnpj;
+	
+	@NotNull
 	@Column(name = "razao_social")
 	private String razaoSocial;
 
@@ -47,7 +51,7 @@ public class Empresa {
 
 	@NotNull
 	@Column(name = "uf")
-	private char uf;
+	private String uf;
 
 	@NotNull
 	@Column(name = "numero")
@@ -74,6 +78,14 @@ public class Empresa {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 
 	public String getRazaoSocial() {
@@ -124,11 +136,11 @@ public class Empresa {
 		this.cidade = cidade;
 	}
 
-	public char getUf() {
+	public String getUf() {
 		return uf;
 	}
 
-	public void setUf(char uf) {
+	public void setUf(String uf) {
 		this.uf = uf;
 	}
 
