@@ -7,6 +7,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.ges.api.exception.BusinessException;
+import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Empresa;
 import br.com.ges.api.repository.EmpresaRepository;
 
@@ -14,6 +15,7 @@ import br.com.ges.api.repository.EmpresaRepository;
 public class EmpresaService {
 
 	private static final String ENE = "Empresa não encontrada.";
+	private static final String EMPRESA_JA_REGISTRADA = "Já existe uma empresa registrado com este CNPJ.";
 	private String mensagem = null;
 
 	@Autowired
@@ -29,7 +31,7 @@ public class EmpresaService {
 
 	public String salvar(Empresa empresa) throws BusinessException {
 
-		verificaDuplicidadeCnpj(empresa);
+		verificaDuplicidadeCnpj(empresa, empresa.getId());
 
 		// TODO: Verificar mensagem de erro retornada para o usuário.
 
@@ -43,7 +45,7 @@ public class EmpresaService {
 
 		empresaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ENE));
 
-		verificaDuplicidadeCnpj(empresa);
+		verificaDuplicidadeCnpj(empresa, id);
 		
 		try {
 			empresa.setId(id);
@@ -71,12 +73,21 @@ public class EmpresaService {
 		return this.mensagem;
 	}
 
-	public void verificaDuplicidadeCnpj(Empresa empresa) throws BusinessException {
+	public void verificaDuplicidadeCnpj(Empresa empresa, Long id) throws BusinessException {
 
 		List<Empresa> empresaCnpj = empresaRepository.findByCnpj(empresa.getCnpj());
 
 		if (!empresaCnpj.isEmpty()) {
-			throw new BusinessException("Já existe uma empresa registrado com este CNPJ.");
+
+			if (id != null) {
+
+				if (empresaCnpj.get(0).getId() != id)
+					throw new BusinessException(EMPRESA_JA_REGISTRADA);
+
+			} else {
+				throw new BusinessException(EMPRESA_JA_REGISTRADA);
+			}
+
 		}
 	}
 }
