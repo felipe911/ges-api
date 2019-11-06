@@ -14,6 +14,7 @@ import br.com.ges.api.repository.AlunoRepository;
 public class AlunoService {
 
 	private static final String ANE = "Aluno não encontrado.";
+	private static final String ALUNO_JA_REGISTRADO = "Já existe um aluno registrado com este RA.";
 	private String mensagem = null;
 
 	@Autowired
@@ -29,10 +30,10 @@ public class AlunoService {
 
 	public String salvar(Aluno aluno) throws BusinessException {
 
-		verificaDuplicidadeRa(aluno);
+		verificaDuplicidadeRa(aluno, aluno.getId());
 
 		// TODO: Verificar mensagem de erro retornada para o usuário.
-		
+
 		alunoRepository.save(aluno);
 		this.mensagem = "Aluno registrado com sucesso.";
 
@@ -43,8 +44,8 @@ public class AlunoService {
 
 		alunoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ANE));
 
-		verificaDuplicidadeRa(aluno);
-		
+		verificaDuplicidadeRa(aluno, id);
+
 		try {
 			aluno.setId(id);
 			alunoRepository.save(aluno);
@@ -70,12 +71,21 @@ public class AlunoService {
 		return this.mensagem;
 	}
 
-	public void verificaDuplicidadeRa(Aluno aluno) throws BusinessException {
+	public void verificaDuplicidadeRa(Aluno aluno, Long id) throws BusinessException {
 
 		List<Aluno> alunosRa = alunoRepository.findByRa(aluno.getRa());
 
 		if (!alunosRa.isEmpty()) {
-			throw new BusinessException("Já existe um aluno registrado com este RA.");
+
+			if (id != null) {
+
+				if (alunosRa.get(0).getId() != id)
+					throw new BusinessException(ALUNO_JA_REGISTRADO);
+
+			} else {
+				throw new BusinessException(ALUNO_JA_REGISTRADO);
+			}
+
 		}
 	}
 }
