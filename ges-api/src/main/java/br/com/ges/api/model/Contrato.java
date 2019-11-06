@@ -3,7 +3,6 @@ package br.com.ges.api.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -19,7 +19,8 @@ import javax.validation.constraints.NotNull;
 public class Contrato {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "service_sequence", sequenceName = "service_sequence", allocationSize=1)
 	private Long id;
 
 	@NotNull
@@ -30,7 +31,6 @@ public class Contrato {
 	@Column(name = "data_fim")
 	private LocalDate dataFim;
 
-	@NotNull
 	@Column(name = "prorrogado_ate")
 	private LocalDate prorrogadoAte;
 
@@ -54,8 +54,8 @@ public class Contrato {
 	@Column(name = "observacao")
 	private String observacao;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "empresa_id", referencedColumnName = "id", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "empresa_id", referencedColumnName = "id", nullable = true)
 	private Empresa empresa;
 
 	public Long getId() {

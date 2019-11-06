@@ -22,7 +22,7 @@ public class ContratoController {
 
 	/**
 	 * 
-	 * Salva uma novo Contrato
+	 * Salva um novo Contrato
 	 * 
 	 */
 //	@ApiOperation(value = "Armazena um registro de Contrato")
@@ -31,10 +31,10 @@ public class ContratoController {
 //			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
-//	@PostMapping()
-//	public String salvar(@RequestBody AssociarContratoWrapper associarContrato) throws BusinessException {
-//		return contratoService.associarContrato(associarContrato);
-//	}
+	@PostMapping()
+	public String salvar(@RequestBody AssociarContratoWrapper associarContrato) throws BusinessException {
+		return contratoService.associarContrato(associarContrato);
+	}
 
 	/**
 	 * 
@@ -54,7 +54,7 @@ public class ContratoController {
 	
 	/**
 	 * 
-	 * Salva uma novo Contrato
+	 * Salva um novo Contrato
 	 * 
 	 */
 //	@ApiOperation(value = "Armazena um registro de Contrato")
@@ -63,8 +63,8 @@ public class ContratoController {
 //			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
-	@PostMapping()
-	public String salvar(@RequestBody Contrato contrato) throws BusinessException {
-		return contratoService.salvar(contrato);
-	}
+//	@PostMapping()
+//	public String salvar(@RequestBody Contrato contrato) throws BusinessException {
+//		return contratoService.salvar(contrato);
+//	}
 }

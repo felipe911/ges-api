@@ -1,15 +1,13 @@
 package br.com.ges.api.model;
 
 import java.time.LocalDate;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -21,7 +19,8 @@ public class Aluno {
 
 	@Id
 	@JsonProperty
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "service_sequence", sequenceName = "service_sequence", allocationSize=1)
 	private Long id;
 
 	@NotNull
@@ -69,9 +68,9 @@ public class Aluno {
 	@Column(name = "data_vestibular")
 	private LocalDate dataVestibular;
 
-	@JsonProperty
-	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
-	private Set<Estagio> estagio;
+//	@JsonProperty
+//	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+//	private Set<Estagio> estagio;
 
 	public Long getId() {
 		return id;
@@ -153,13 +152,13 @@ public class Aluno {
 		this.dataVestibular = dataVestibular;
 	}
 
-	public Set<Estagio> getEstagio() {
-		return estagio;
-	}
-
-	public void setEstagio(Set<Estagio> estagio) {
-		this.estagio = estagio;
-	}
+//	public Set<Estagio> getEstagio() {
+//		return estagio;
+//	}
+//
+//	public void setEstagio(Set<Estagio> estagio) {
+//		this.estagio = estagio;
+//	}
 
 	@Override
 	public int hashCode() {

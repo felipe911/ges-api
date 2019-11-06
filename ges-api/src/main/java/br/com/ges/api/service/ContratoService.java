@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.ges.api.enums.StatusEnum;
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Contrato;
+import br.com.ges.api.model.Empresa;
 import br.com.ges.api.model.Estagio;
 import br.com.ges.api.repository.ContratoRepository;
 import br.com.ges.api.repository.EstagioRepository;
@@ -28,13 +30,21 @@ public class ContratoService {
 		
 		Contrato contrato = new Contrato();
 		Estagio estagio = new Estagio();
-
-		contrato.setEmpresa(associarContrato.getEmpresa());
-		estagio.setAluno(associarContrato.getAluno());
-		estagio.setContrato(contrato);
 		
-		contratoRepository.save(contrato);
+		contrato = associarContrato.getContrato();
+		contrato.setEmpresa(associarContrato.getEmpresa());
+		estagio.setIdAluno(associarContrato.getAluno().getId());
+//		estagio.setIdContrato(associarContrato.get);
+//		estagio.setAluno(associarContrato.getAluno());
+//		estagio.setContrato(contrato);
+		
+		
+		Contrato contratoSalvo = contratoRepository.save(contrato);
+		Long id = contratoSalvo.getId();
+		estagio.setIdContrato(id);
+		estagio.setStatus(StatusEnum.ATIVO);
 		estagioRepository.save(estagio);
+		
 		
 		return this.mensagem = "Contrato Associado com sucesso.";
 		
