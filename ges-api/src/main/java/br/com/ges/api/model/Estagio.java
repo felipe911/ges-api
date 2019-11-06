@@ -19,7 +19,7 @@ public class Estagio {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Contrato contrato;
 
 	@ManyToOne(cascade = CascadeType.ALL)

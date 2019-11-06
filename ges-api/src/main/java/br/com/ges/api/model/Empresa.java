@@ -69,9 +69,6 @@ public class Empresa {
 	@Column(name = "prazo_convenio")
 	private LocalDate prazoConvenio;
 
-	@OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
-	private Set<Contrato> contrato;
-
 	public Long getId() {
 		return id;
 	}
@@ -174,14 +171,6 @@ public class Empresa {
 
 	public void setPrazoConvenio(LocalDate prazoConvenio) {
 		this.prazoConvenio = prazoConvenio;
-	}
-
-	public Set<Contrato> getContrato() {
-		return contrato;
-	}
-
-	public void setContrato(Set<Contrato> contrato) {
-		this.contrato = contrato;
 	}
 
 	@Override

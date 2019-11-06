@@ -7,7 +7,6 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.ges.api.exception.BusinessException;
-import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Empresa;
 import br.com.ges.api.repository.EmpresaRepository;
 
