@@ -11,9 +11,7 @@ public class AssociarContratoWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Contrato contrato;
-
 	private Aluno aluno;
-
 	private Empresa empresa;
 
 	public AssociarContratoWrapper(Contrato contrato, Aluno aluno, Empresa empresa) {

@@ -1,30 +1,35 @@
 package br.com.ges.api.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import br.com.ges.api.enums.StatusEnum;
 
 @Entity
 @Table(name = "estagio")
 public class Estagio {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "service_sequence", sequenceName = "service_sequence", allocationSize=1)
 	private Long id;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	private Contrato contrato;
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "aluno_id", referencedColumnName = "id", nullable = false)
-	private Aluno aluno;
+	private Long idContrato;
+	
+	private Long idAluno;
+	
+	private StatusEnum status;
+	
+//	@OneToOne(fetch = FetchType.EAGER)
+//	private Contrato contrato;
+//
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "aluno_id", referencedColumnName = "id", nullable = false)
+//	private Aluno aluno;
 
 	public Long getId() {
 		return id;
@@ -34,22 +39,30 @@ public class Estagio {
 		this.id = id;
 	}
 
-	public Contrato getContrato() {
-		return contrato;
+	public Long getIdContrato() {
+		return idContrato;
 	}
 
-	public void setContrato(Contrato contrato) {
-		this.contrato = contrato;
+	public void setIdContrato(Long idContrato) {
+		this.idContrato = idContrato;
 	}
 
-	public Aluno getAluno() {
-		return aluno;
+	public Long getIdAluno() {
+		return idAluno;
 	}
 
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
+	public void setIdAluno(Long idAluno) {
+		this.idAluno = idAluno;
 	}
 
+	public StatusEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusEnum status) {
+		this.status = status;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
