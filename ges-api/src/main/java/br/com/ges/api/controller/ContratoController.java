@@ -1,6 +1,7 @@
 package br.com.ges.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ public class ContratoController {
 	 * 
 	 */
 //	@ApiOperation(value = "Associa um novo Contrato")
+//	@ApiOperation(value = "Lista todos os registros de Empresas")
 //	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Contrato.class),
 //			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
 //			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
@@ -34,6 +36,7 @@ public class ContratoController {
 	@PostMapping()
 	public String associar(@RequestBody AssociarContratoWrapper associarContrato) throws BusinessException {
 		return contratoService.associarContrato(associarContrato);
+
 	}
 
 	/**
@@ -51,5 +54,19 @@ public class ContratoController {
 	public Contrato exibir(@PathVariable Long id) throws BusinessException {
 		return contratoService.exibir(id);
 	}
-	
+
+	/**
+	 * Deleta um registro de Contrato caso ele exista
+	 * 
+	 */
+//	@ApiOperation(value = "Deleta um registro de Empresa")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Contrato.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@DeleteMapping("/{id}")
+	public String deletar(@PathVariable Long id) throws BusinessException {
+		return contratoService.deletar(id);
+	}
 }
