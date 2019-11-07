@@ -68,10 +68,6 @@ public class Aluno {
 	@Column(name = "data_vestibular")
 	private LocalDate dataVestibular;
 
-//	@JsonProperty
-//	@OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
-//	private Set<Estagio> estagio;
-
 	public Long getId() {
 		return id;
 	}
