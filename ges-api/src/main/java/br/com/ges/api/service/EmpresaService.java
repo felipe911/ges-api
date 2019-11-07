@@ -20,42 +20,14 @@ public class EmpresaService {
 	@Autowired
 	private EmpresaRepository empresaRepository;
 
+	
 	public Empresa exibir(Long id) {
 		return empresaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ENE));
 	}
 
+	
 	public List<Empresa> listar() {
 		return (List<Empresa>) empresaRepository.findAll();
-	}
-
-	public String salvar(Empresa empresa) throws BusinessException {
-
-		verificaDuplicidadeCnpj(empresa, empresa.getId());
-
-		// TODO: Verificar mensagem de erro retornada para o usuário.
-
-		empresaRepository.save(empresa);
-		this.mensagem = "Empresa registrada com sucesso.";
-
-		return this.mensagem;
-	}
-
-	public String atualizar(Long id, Empresa empresa) throws BusinessException {
-
-		empresaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ENE));
-
-		verificaDuplicidadeCnpj(empresa, id);
-		
-		try {
-			empresa.setId(id);
-			empresaRepository.save(empresa);
-			this.mensagem = "Empresa atualizada com sucesso.";
-
-		} catch (Exception e) {
-			// TODO: Criar Exception correta
-		}
-
-		return this.mensagem;
 	}
 	
 	
@@ -63,15 +35,49 @@ public class EmpresaService {
 		empresaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ENE));
 
 		try {
+			
 			empresaRepository.deleteById(id);
-			this.mensagem = "Empresa deletada com sucesso.";
+			
 		} catch (Exception e) {
 			// TODO: Criar Exception correta
 		}
 
-		return this.mensagem;
+		return this.mensagem = "Empresa deletada com sucesso.";
 	}
 
+	
+	public String salvar(Empresa empresa) throws BusinessException {
+
+		try {
+			
+			verificaDuplicidadeCnpj(empresa, empresa.getId());
+			empresaRepository.save(empresa);
+			
+		} catch (Exception e) {
+			// TODO: Verificar mensagem de erro retornada para o usuário.
+		}
+		
+		return this.mensagem = "Empresa registrada com sucesso.";
+	}
+
+	
+	public String atualizar(Long id, Empresa empresa) throws BusinessException {
+
+		empresaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ENE));
+		
+		try {
+			verificaDuplicidadeCnpj(empresa, id);
+			empresa.setId(id);
+			empresaRepository.save(empresa);
+
+		} catch (Exception e) {
+			// TODO: Criar Exception correta
+		}
+
+		return this.mensagem = "Empresa atualizada com sucesso.";
+	}
+	
+	
 	public void verificaDuplicidadeCnpj(Empresa empresa, Long id) throws BusinessException {
 
 		List<Empresa> empresaCnpj = empresaRepository.findByCnpj(empresa.getCnpj());
