@@ -34,7 +34,7 @@ public class Estagio {
 
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "id_rel_estagio")
-	private Relatorio_Estagio relatorioEstagio;
+	private EstagioRelatorio relatorioEstagio;
 
 	public Long getId() {
 		return id;
@@ -60,11 +60,11 @@ public class Estagio {
 		this.aluno = aluno;
 	}
 
-	public Relatorio_Estagio getRelatorioEstagio() {
+	public EstagioRelatorio getRelatorioEstagio() {
 		return relatorioEstagio;
 	}
 
-	public void setRelatorioEstagio(Relatorio_Estagio relatorioEstagio) {
+	public void setRelatorioEstagio(EstagioRelatorio relatorioEstagio) {
 		this.relatorioEstagio = relatorioEstagio;
 	}
 

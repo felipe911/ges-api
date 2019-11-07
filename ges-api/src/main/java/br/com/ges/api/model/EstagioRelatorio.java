@@ -1,5 +1,6 @@
 package br.com.ges.api.model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,17 +15,17 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "relatorio_estagio")
-public class Relatorio_Estagio {
+@Table(name = "estagio_relatorio")
+public class EstagioRelatorio {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name = "service_sequence", sequenceName = "service_sequence", allocationSize = 1)
 	private Long id;
 
-	@OneToMany
-	@JoinColumn(name = "rel_estagio_id")
-	private Set<RelatorioAtividade> relatoriosAtividades;
+	@OneToMany(mappedBy = "estagioRelatorio_relAtiv")
+//	@JoinColumn(name = "rel_estagio_id")
+	private List<RelatorioAtividade> relatoriosAtividades;
 
 	@OneToMany
 	@JoinColumn(name = "rel_estagio_id")
@@ -49,6 +50,23 @@ public class Relatorio_Estagio {
 	public void setRelatorioFinal(RelatorioFinal relatorioFinal) {
 		this.relatorioFinal = relatorioFinal;
 	}
+	
+
+	public List<RelatorioAtividade> getRelatoriosAtividades() {
+		return relatoriosAtividades;
+	}
+
+	public void setRelatoriosAtividades(List<RelatorioAtividade> relatoriosAtividades) {
+		this.relatoriosAtividades = relatoriosAtividades;
+	}
+
+	public Set<RelatorioParcial> getRelatoriosParciais() {
+		return relatoriosParciais;
+	}
+
+	public void setRelatoriosParciais(Set<RelatorioParcial> relatoriosParciais) {
+		this.relatoriosParciais = relatoriosParciais;
+	}
 
 	@Override
 	public int hashCode() {
@@ -66,7 +84,7 @@ public class Relatorio_Estagio {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Relatorio_Estagio other = (Relatorio_Estagio) obj;
+		EstagioRelatorio other = (EstagioRelatorio) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

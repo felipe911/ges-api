@@ -4,9 +4,12 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +28,10 @@ public class RelatorioAtividade {
 
 	@Column(name = "qtd_horas")
 	private int qtdHoras;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_estagio_relatorio", referencedColumnName = "id", nullable = true)
+    private EstagioRelatorio estagioRelatorio_relAtiv;
 
 	public Long getId() {
 		return id;
@@ -56,6 +63,15 @@ public class RelatorioAtividade {
 
 	public void setQtdHoras(int qtdHoras) {
 		this.qtdHoras = qtdHoras;
+	}
+
+
+	public EstagioRelatorio getEstagioRelatorio() {
+		return estagioRelatorio;
+	}
+
+	public void setEstagioRelatorio(EstagioRelatorio estagioRelatorio) {
+		this.estagioRelatorio = estagioRelatorio;
 	}
 
 	@Override
