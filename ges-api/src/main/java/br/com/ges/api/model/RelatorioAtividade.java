@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -65,13 +64,12 @@ public class RelatorioAtividade {
 		this.qtdHoras = qtdHoras;
 	}
 
-
-	public EstagioRelatorio getEstagioRelatorio() {
-		return estagioRelatorio;
+	public EstagioRelatorio getEstagioRelatorio_relAtiv() {
+		return estagioRelatorio_relAtiv;
 	}
 
-	public void setEstagioRelatorio(EstagioRelatorio estagioRelatorio) {
-		this.estagioRelatorio = estagioRelatorio;
+	public void setEstagioRelatorio_relAtiv(EstagioRelatorio estagioRelatorio_relAtiv) {
+		this.estagioRelatorio_relAtiv = estagioRelatorio_relAtiv;
 	}
 
 	@Override

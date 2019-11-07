@@ -148,14 +148,6 @@ public class Aluno {
 		this.dataVestibular = dataVestibular;
 	}
 
-//	public Set<Estagio> getEstagio() {
-//		return estagio;
-//	}
-//
-//	public void setEstagio(Set<Estagio> estagio) {
-//		this.estagio = estagio;
-//	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
