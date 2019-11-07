@@ -34,34 +34,34 @@ public class RelatorioAtividadeService {
 		return relatorioAtividadeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RANE));
 	}
 	
-	public List<RelatorioAtividade> buscaRelatoriosAtividadeDoAluno(Aluno aluno){
-		
-		List<RelatorioAtividade> listaRelatorioAtividadeDoAluno = relatorioAtividadeRepository.findByAluno(aluno);
-		
-		return listaRelatorioAtividadeDoAluno;
-	}
+//	public List<RelatorioAtividade> buscaRelatoriosAtividadeDoAluno(Aluno aluno){
+//		
+//		List<RelatorioAtividade> listaRelatorioAtividadeDoAluno = relatorioAtividadeRepository.findByAluno(aluno);
+//		
+//		return listaRelatorioAtividadeDoAluno;
+//	}
 	
 	
-	public String salvar(RelatoriosAlunoWrapper relatoriosAluno) {
-		
-		Estagio estagioAluno = estagioRepository.findByAluno(relatoriosAluno.getAluno());
-		RelatorioAtividade relatorioAtividade = relatoriosAluno.getRelatorioAtividade();
-		
-		try {
-			
-			EstagioRelatorio estagioRelatorio = estagioRelatorioRepository.save(new EstagioRelatorio());
-			
-			
-			
-//			relatorioAtividade.get
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		
-		
-		return this.mensagem;
-		
-	}
+//	public String salvar(RelatoriosAlunoWrapper relatoriosAluno) {
+//		
+//		Estagio estagioAluno = estagioRepository.findByAluno(relatoriosAluno.getAluno());
+//		RelatorioAtividade relatorioAtividade = relatoriosAluno.getRelatorioAtividade();
+//		
+//		try {
+//			
+//			EstagioRelatorio estagioRelatorio = estagioRelatorioRepository.save(new EstagioRelatorio());
+//			
+//			
+//			
+////			relatorioAtividade.get
+//			
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//		
+//		
+//		
+//		return this.mensagem;
+//		
+//	}
 }
