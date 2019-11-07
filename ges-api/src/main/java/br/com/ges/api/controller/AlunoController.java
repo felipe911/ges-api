@@ -23,6 +23,24 @@ public class AlunoController {
 	@Autowired
 	private AlunoService alunoService;
 	
+	
+	/**
+	 * 
+	 * Exibe o registro do aluno
+	 * 
+	 */
+//	@ApiOperation(value = "Exibe o registro do aluno")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@GetMapping("/{id}")
+	public Aluno exibir(@PathVariable Long id) throws BusinessException {
+		return alunoService.exibir(id);
+	}
+	
+	
 	/**
 	 * 
 	 * Lista todos Alunos
@@ -39,20 +57,20 @@ public class AlunoController {
 		return alunoService.listar();
 	}
 	
+	
 	/**
-	 * 
-	 * Exibe o registro do aluno
+	 * Deleta um registro de Aluno caso ele exista
 	 * 
 	 */
-//	@ApiOperation(value = "Exibe o registro do aluno")
+//	@ApiOperation(value = "Deleta um registro de Aluno")
 //	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
 //			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
 //			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
-	@GetMapping("/{id}")
-	public Aluno exibir(@PathVariable Long id) throws BusinessException {
-		return alunoService.exibir(id);
+	@DeleteMapping("/{id}")
+	public String deletar(@PathVariable Long id) throws BusinessException {
+		return alunoService.deletar(id);
 	}
 	
 	
@@ -87,21 +105,5 @@ public class AlunoController {
 	@PutMapping("/{id}")
 	public String atualizar(@PathVariable Long id, @RequestBody Aluno aluno) throws BusinessException {
 		return alunoService.atualizar(id, aluno);
-	}
-	
-	
-	/**
-	 * Deleta um registro de Aluno caso ele exista
-	 * 
-	 */
-//	@ApiOperation(value = "Deleta um registro de Aluno")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
-//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
-//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
-//			@ApiResponse(code = 404, message = "Não encontrado"),
-//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
-	@DeleteMapping("/{id}")
-	public String deletar(@PathVariable Long id) throws BusinessException {
-		return alunoService.deletar(id);
 	}
 }

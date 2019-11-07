@@ -6,4 +6,5 @@ import br.com.ges.api.model.Estagio;
 
 public interface EstagioRepository extends JpaRepository<Estagio, Long>{
 
+	Estagio findByContratoId(Long id);
 }

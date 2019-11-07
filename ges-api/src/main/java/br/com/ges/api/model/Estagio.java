@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import br.com.ges.api.enums.StatusEnum;
+import br.com.ges.api.enums.StatusEstagio;
 
 @Entity
 @Table(name = "estagio")
@@ -30,7 +30,7 @@ public class Estagio {
 	@JoinColumn(name = "id_aluno", referencedColumnName = "id", nullable = true)
 	private Aluno aluno;
 
-	private StatusEnum status;
+	private StatusEstagio status;
 
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "id_rel_estagio")
@@ -69,11 +69,11 @@ public class Estagio {
 	}
 
 
-	public StatusEnum getStatus() {
+	public StatusEstagio getStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusEnum status) {
+	public void setStatus(StatusEstagio status) {
 		this.status = status;
 	}
 

@@ -1,5 +1,5 @@
 package br.com.ges.api.enums;
 
-public enum StatusEnum {
+public enum StatusEstagio {
 	ATIVO, FINALIZADO, CANCELADO
 }

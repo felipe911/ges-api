@@ -23,22 +23,7 @@ public class EmpresaController {
 	@Autowired
 	private EmpresaService empresaService;
 
-	/**
-	 * 
-	 * Lista todas Empresas
-	 * 
-	 */
-//	@ApiOperation(value = "Lista todos os registros de Empresas")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
-//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
-//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
-//			@ApiResponse(code = 404, message = "Não encontrado"),
-//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
-	@GetMapping(produces = "application/json")
-	public List<Empresa> listar() {
-		return empresaService.listar();
-	}
-
+	
 	/**
 	 * 
 	 * Exibe o registro da Empresa
@@ -54,6 +39,40 @@ public class EmpresaController {
 	public Empresa exibir(@PathVariable Long id) throws BusinessException {
 		return empresaService.exibir(id);
 	}
+	
+	
+	/**
+	 * 
+	 * Lista todas Empresas
+	 * 
+	 */
+//	@ApiOperation(value = "Lista todos os registros de Empresas")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@GetMapping(produces = "application/json")
+	public List<Empresa> listar() {
+		return empresaService.listar();
+	}
+	
+	
+	/**
+	 * Deleta um registro de Empresa caso ele exista
+	 * 
+	 */
+//	@ApiOperation(value = "Deleta um registro de Empresa")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@DeleteMapping("/{id}")
+	public String deletar(@PathVariable Long id) throws BusinessException {
+		return empresaService.deletar(id);
+	}
+	
 
 	/**
 	 * 
@@ -71,6 +90,7 @@ public class EmpresaController {
 		return empresaService.salvar(empresa);
 	}
 
+	
 	/**
 	 * 
 	 * Atualiza o registro de uma Empresa a partir de seu ID
@@ -85,21 +105,6 @@ public class EmpresaController {
 	@PutMapping("/{id}")
 	public String atualizar(@PathVariable Long id, @RequestBody Empresa empresa) throws BusinessException {
 		return empresaService.atualizar(id, empresa);
-	}
-
-	/**
-	 * Deleta um registro de Empresa caso ele exista
-	 * 
-	 */
-//	@ApiOperation(value = "Deleta um registro de Empresa")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
-//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
-//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
-//			@ApiResponse(code = 404, message = "Não encontrado"),
-//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
-	@DeleteMapping("/{id}")
-	public String deletar(@PathVariable Long id) throws BusinessException {
-		return empresaService.deletar(id);
 	}
 
 }
