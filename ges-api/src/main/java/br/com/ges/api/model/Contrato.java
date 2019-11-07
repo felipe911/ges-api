@@ -55,7 +55,7 @@ public class Contrato {
 	private String observacao;
 
 	@ManyToOne
-	@JoinColumn(name = "empresa_id", referencedColumnName = "id", nullable = true)
+	@JoinColumn(name = "id_empresa", referencedColumnName = "id", nullable = true)
 	private Empresa empresa;
 
 	public Long getId() {

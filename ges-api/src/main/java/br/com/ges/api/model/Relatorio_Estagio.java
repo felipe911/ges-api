@@ -1,40 +1,38 @@
 package br.com.ges.api.model;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import br.com.ges.api.enums.StatusEnum;
-
 @Entity
-@Table(name = "estagio")
-public class Estagio {
+@Table(name = "relatorio_estagio")
+public class Relatorio_Estagio {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SequenceGenerator(name = "service_sequence", sequenceName = "service_sequence", allocationSize = 1)
 	private Long id;
 
-	@OneToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "id_contrato")
-	private Contrato contrato;
+	@OneToMany
+	@JoinColumn(name = "rel_estagio_id")
+	private Set<RelatorioAtividade> relatoriosAtividades;
+
+	@OneToMany
+	@JoinColumn(name = "rel_estagio_id")
+	private Set<RelatorioParcial> relatoriosParciais;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_aluno", referencedColumnName = "id", nullable = true)
-	private Aluno aluno;
-
-	private StatusEnum status;
-
 	@OneToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "id_rel_estagio")
-	private Relatorio_Estagio relatorioEstagio;
+	@JoinColumn(name = "rel_estagio_final")
+	private RelatorioFinal relatorioFinal;
 
 	public Long getId() {
 		return id;
@@ -44,37 +42,12 @@ public class Estagio {
 		this.id = id;
 	}
 
-	public Contrato getContrato() {
-		return contrato;
+	public RelatorioFinal getRelatorioFinal() {
+		return relatorioFinal;
 	}
 
-	public void setContrato(Contrato contrato) {
-		this.contrato = contrato;
-	}
-
-	public Aluno getAluno() {
-		return aluno;
-	}
-
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
-	}
-
-	public Relatorio_Estagio getRelatorioEstagio() {
-		return relatorioEstagio;
-	}
-
-	public void setRelatorioEstagio(Relatorio_Estagio relatorioEstagio) {
-		this.relatorioEstagio = relatorioEstagio;
-	}
-
-
-	public StatusEnum getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusEnum status) {
-		this.status = status;
+	public void setRelatorioFinal(RelatorioFinal relatorioFinal) {
+		this.relatorioFinal = relatorioFinal;
 	}
 
 	@Override
@@ -93,7 +66,7 @@ public class Estagio {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Estagio other = (Estagio) obj;
+		Relatorio_Estagio other = (Relatorio_Estagio) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

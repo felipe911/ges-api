@@ -33,37 +33,20 @@ public class ContratoService {
 		
 		contrato = associarContrato.getContrato();
 		contrato.setEmpresa(associarContrato.getEmpresa());
-		estagio.setIdAluno(associarContrato.getAluno().getId());
-//		estagio.setIdContrato(associarContrato.get);
-//		estagio.setAluno(associarContrato.getAluno());
-//		estagio.setContrato(contrato);
-		
+		estagio.setAluno(associarContrato.getAluno());
+		estagio.setContrato(associarContrato.getContrato());
 		
 		Contrato contratoSalvo = contratoRepository.save(contrato);
 		Long id = contratoSalvo.getId();
-		estagio.setIdContrato(id);
+		estagio.getContrato().setId(id);
 		estagio.setStatus(StatusEnum.ATIVO);
 		estagioRepository.save(estagio);
 		
-		
 		return this.mensagem = "Contrato Associado com sucesso.";
-		
 	}
 	
 	public Contrato exibir(Long id) {
 		return contratoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CNE));
-	}
-	
-	
-	public String salvar(Contrato contrato) throws BusinessException {
-
-
-		// TODO: Verificar mensagem de erro retornada para o usuário.
-
-		contratoRepository.save(contrato);
-		this.mensagem = "Contrato registrado com sucesso.";
-
-		return this.mensagem;
 	}
 	
 }
