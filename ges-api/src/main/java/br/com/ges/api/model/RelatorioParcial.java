@@ -47,9 +47,8 @@ public class RelatorioParcial {
 	private String consideracoesSupervisor;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_estagio_relatorio", referencedColumnName = "id", nullable = false)
-	@JsonBackReference
-    private EstagioRelatorio estagioRelatorio_relParc;
+	@JoinColumn(name = "id_estagio", referencedColumnName = "id")
+	private Estagio estagioRelatorioParcial;
 
 	public Long getId() {
 		return id;
@@ -129,6 +128,14 @@ public class RelatorioParcial {
 
 	public void setConsideracoesSupervisor(String consideracoesSupervisor) {
 		this.consideracoesSupervisor = consideracoesSupervisor;
+	}
+
+	public Estagio getEstagioRelatorioParcial() {
+		return estagioRelatorioParcial;
+	}
+
+	public void setEstagioRelatorioParcial(Estagio estagioRelatorioParcial) {
+		this.estagioRelatorioParcial = estagioRelatorioParcial;
 	}
 
 	@Override
