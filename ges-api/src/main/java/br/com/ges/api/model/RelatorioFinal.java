@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "relatorio_final")
@@ -34,6 +38,10 @@ public class RelatorioFinal {
 
 	@Column(name = "area_atividade")
 	private String areaAtividade;
+	
+	@OneToOne
+	@JoinColumn(name = "id_estagio_relatorio", nullable = false)
+	private EstagioRelatorio estagioRelatorio;
 
 	public Long getId() {
 		return id;

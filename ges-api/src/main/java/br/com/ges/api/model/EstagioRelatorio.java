@@ -1,9 +1,6 @@
 package br.com.ges.api.model;
 
-import java.util.List;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +10,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "estagio_relatorio")
@@ -24,16 +23,16 @@ public class EstagioRelatorio {
 	private Long id;
 
 	@OneToMany(mappedBy = "estagioRelatorio_relAtiv")
-//	@JoinColumn(name = "rel_estagio_id")
-	private List<RelatorioAtividade> relatoriosAtividades;
+	@JsonManagedReference
+	private Set<RelatorioAtividade> relatoriosAtividades;
 
-	@OneToMany
-	@JoinColumn(name = "rel_estagio_id")
+	@OneToMany(mappedBy = "estagioRelatorio_relParc")
+	@JsonManagedReference
 	private Set<RelatorioParcial> relatoriosParciais;
 	
-	@OneToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "rel_estagio_final")
-	private RelatorioFinal relatorioFinal;
+//	@OneToOne
+//	@JsonManagedReference
+//	private RelatorioFinal relatorioFinal;
 
 	public Long getId() {
 		return id;
@@ -43,20 +42,19 @@ public class EstagioRelatorio {
 		this.id = id;
 	}
 
-	public RelatorioFinal getRelatorioFinal() {
-		return relatorioFinal;
-	}
+//	public RelatorioFinal getRelatorioFinal() {
+//		return relatorioFinal;
+//	}
+//
+//	public void setRelatorioFinal(RelatorioFinal relatorioFinal) {
+//		this.relatorioFinal = relatorioFinal;
+//	}
 
-	public void setRelatorioFinal(RelatorioFinal relatorioFinal) {
-		this.relatorioFinal = relatorioFinal;
-	}
-	
-
-	public List<RelatorioAtividade> getRelatoriosAtividades() {
+	public Set<RelatorioAtividade> getRelatoriosAtividades() {
 		return relatoriosAtividades;
 	}
 
-	public void setRelatoriosAtividades(List<RelatorioAtividade> relatoriosAtividades) {
+	public void setRelatoriosAtividades(Set<RelatorioAtividade> relatoriosAtividades) {
 		this.relatoriosAtividades = relatoriosAtividades;
 	}
 
