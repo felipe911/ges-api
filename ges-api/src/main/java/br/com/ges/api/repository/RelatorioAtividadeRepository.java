@@ -9,5 +9,8 @@ import br.com.ges.api.model.RelatorioAtividade;
 
 public interface RelatorioAtividadeRepository extends JpaRepository<RelatorioAtividade, Long>{
 
-//	List<RelatorioAtividade> findByAluno(Aluno aluno);
+	List<RelatorioAtividade> findByEstagioRelatorioAtividadeId(Long id);
+
+	RelatorioAtividade findByRelatorioAtividade(RelatorioAtividade relatorioAtividade);
+	
 }
