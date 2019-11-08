@@ -5,7 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "relatorio_parcial")
@@ -41,6 +45,11 @@ public class RelatorioParcial {
 
 	@Column(name = "consideracoes_supervisor")
 	private String consideracoesSupervisor;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_estagio_relatorio", referencedColumnName = "id", nullable = false)
+	@JsonBackReference
+    private EstagioRelatorio estagioRelatorio_relParc;
 
 	public Long getId() {
 		return id;
