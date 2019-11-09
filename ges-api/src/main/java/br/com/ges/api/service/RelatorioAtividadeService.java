@@ -54,8 +54,7 @@ public class RelatorioAtividadeService {
 
 	public String atualizar(RelatorioAtividade relatorioAtividade) {
 
-//		RelatorioAtividade relatorioAlterado = relatorioAtividadeRepository.findByRelatorioAtividade(relatorioAtividade);
-//		relatorioAtividadeRepository.save(relatorioAlterado);
+		Optional<RelatorioAtividade> relatorioAlterado = relatorioAtividadeRepository.findById(relatorioAtividade.getId());
 		
 		return "Relatório de atividade salvo com sucesso";
 
