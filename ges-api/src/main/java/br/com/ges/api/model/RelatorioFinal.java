@@ -45,6 +45,9 @@ public class RelatorioFinal {
 	@JoinColumn(name = "id_estagio", referencedColumnName = "id")
 	@JsonIgnore
 	private Estagio estagioRelatorioFinal;
+	
+	@Column(name = "relatorio_entregue")
+	private boolean relatorioEntregue;
 
 	public Long getId() {
 		return id;
@@ -109,6 +112,14 @@ public class RelatorioFinal {
 
 	public void setEstagioRelatorioFinal(Estagio estagioRelatorioFinal) {
 		this.estagioRelatorioFinal = estagioRelatorioFinal;
+	}
+
+	public boolean isRelatorioEntregue() {
+		return relatorioEntregue;
+	}
+
+	public void setRelatorioEntregue(boolean relatorioEntregue) {
+		this.relatorioEntregue = relatorioEntregue;
 	}
 
 	@Override

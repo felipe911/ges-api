@@ -1,5 +1,7 @@
 package br.com.ges.api.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "relatorio_parcial")
@@ -47,8 +49,18 @@ public class RelatorioParcial {
 	private String consideracoesSupervisor;
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "id_estagio", referencedColumnName = "id")
 	private Estagio estagioRelatorioParcial;
+	
+	@Column(name = "relatorio_entregue")
+	private boolean relatorioEntregue;
+	
+	@Column(name = "periodo_de")
+	private LocalDate periodoDe;
+	
+	@Column(name = "periodo_ate")
+	private LocalDate periodoAte;
 
 	public Long getId() {
 		return id;
@@ -136,6 +148,30 @@ public class RelatorioParcial {
 
 	public void setEstagioRelatorioParcial(Estagio estagioRelatorioParcial) {
 		this.estagioRelatorioParcial = estagioRelatorioParcial;
+	}
+
+	public boolean isRelatorioEntregue() {
+		return relatorioEntregue;
+	}
+
+	public void setRelatorioEntregue(boolean relatorioEntregue) {
+		this.relatorioEntregue = relatorioEntregue;
+	}
+
+	public LocalDate getPeriodoDe() {
+		return periodoDe;
+	}
+
+	public void setPeriodoDe(LocalDate periodoDe) {
+		this.periodoDe = periodoDe;
+	}
+
+	public LocalDate getPeriodoAte() {
+		return periodoAte;
+	}
+
+	public void setPeriodoAte(LocalDate periodoAte) {
+		this.periodoAte = periodoAte;
 	}
 
 	@Override
