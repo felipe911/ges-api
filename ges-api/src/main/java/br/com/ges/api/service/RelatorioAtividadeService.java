@@ -1,7 +1,6 @@
 package br.com.ges.api.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -39,6 +38,24 @@ public class RelatorioAtividadeService {
 		return relatoriosAluno;
 	}
 
+	public List<RelatorioAtividade> listarTodos() {
+		return (List<RelatorioAtividade>) relatorioAtividadeRepository.findAll();
+	}
+
+	public String deletar(Long id) {
+		relatorioAtividadeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RANE));
+
+		try {
+
+			relatorioAtividadeRepository.deleteById(id);
+
+		} catch (Exception e) {
+			// TODO: Criar Exception correta
+		}
+
+		return this.mensagem = "Relatório de Atividade deletado com sucesso.";
+	}
+
 	public String salvar(RelatoriosAlunoWrapper relatoriosAluno) {
 
 		Estagio estagioAluno = estagioRepository.findByAluno(relatoriosAluno.getAluno());
@@ -52,11 +69,20 @@ public class RelatorioAtividadeService {
 
 	}
 
-	public String atualizar(RelatorioAtividade relatorioAtividade) {
+	public String atualizar(Long id, RelatorioAtividade relatorioAtividade) {
 
-		Optional<RelatorioAtividade> relatorioAlterado = relatorioAtividadeRepository.findById(relatorioAtividade.getId());
+		relatorioAtividadeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RANE));
 		
-		return "Relatório de atividade salvo com sucesso";
+		try {
+			relatorioAtividade.setId(id);
+			relatorioAtividadeRepository.save(relatorioAtividade);
+
+		} catch (Exception e) {
+			// TODO: Criar Exception correta
+		}
+
+		return this.mensagem = "Relatório de Atividade alterado com sucesso.";
 
 	}
+
 }
