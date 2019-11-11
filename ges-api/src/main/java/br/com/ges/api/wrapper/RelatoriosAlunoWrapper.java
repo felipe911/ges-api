@@ -6,6 +6,7 @@ import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.RelatorioAtividade;
 import br.com.ges.api.model.RelatorioFinal;
 import br.com.ges.api.model.RelatorioParcial;
+import br.com.ges.api.model.TipoAtividadeEstagiario;
 
 public class RelatoriosAlunoWrapper implements Serializable {
 
@@ -19,12 +20,15 @@ public class RelatoriosAlunoWrapper implements Serializable {
 
 	private RelatorioAtividade relatorioAtividade;
 	
+	private TipoAtividadeEstagiario tipoAtividadeEstagiario;
+
 	public RelatoriosAlunoWrapper(Aluno aluno, RelatorioFinal relatorioFinal, RelatorioParcial relatorioParcial,
-			RelatorioAtividade relatorioAtividade) {
+			RelatorioAtividade relatorioAtividade, TipoAtividadeEstagiario tipoAtividadeEstagiario) {
 		this.aluno = aluno;
 		this.relatorioFinal = relatorioFinal;
 		this.relatorioParcial = relatorioParcial;
 		this.relatorioAtividade = relatorioAtividade;
+		this.tipoAtividadeEstagiario = tipoAtividadeEstagiario;
 	}
 
 	public Aluno getAluno() {
@@ -59,4 +63,11 @@ public class RelatoriosAlunoWrapper implements Serializable {
 		this.relatorioAtividade = relatorioAtividade;
 	}
 
+	public TipoAtividadeEstagiario getTipoAtividadeEstagiario() {
+		return tipoAtividadeEstagiario;
+	}
+
+	public void setTipoAtividadeEstagiario(TipoAtividadeEstagiario tipoAtividadeEstagiario) {
+		this.tipoAtividadeEstagiario = tipoAtividadeEstagiario;
+	}
 }

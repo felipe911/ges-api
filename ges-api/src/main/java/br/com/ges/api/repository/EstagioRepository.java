@@ -10,4 +10,6 @@ public interface EstagioRepository extends JpaRepository<Estagio, Long>{
 	Estagio findByContratoId(Long id);
 	
 	Estagio findByAluno(Aluno aluno);
+
+	Estagio findByAlunoId(Long idAluno);
 }
