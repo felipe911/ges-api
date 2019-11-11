@@ -11,6 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.com.ges.api.enums.TipoAtividade;
+
 @Entity
 @Table(name = "relatorio_final")
 public class RelatorioFinal {
@@ -23,7 +27,7 @@ public class RelatorioFinal {
 	private int totalHorasCumpridas;
 
 	@Column(name = "tipo_atividade")
-	private int tipoAtividade;
+	private TipoAtividade tipoAtividade;
 
 	@Column(name = "local")
 	private String local;
@@ -39,6 +43,7 @@ public class RelatorioFinal {
 	
 	@OneToOne
 	@JoinColumn(name = "id_estagio", referencedColumnName = "id")
+	@JsonIgnore
 	private Estagio estagioRelatorioFinal;
 
 	public Long getId() {
@@ -57,11 +62,12 @@ public class RelatorioFinal {
 		this.totalHorasCumpridas = totalHorasCumpridas;
 	}
 
-	public int getTipoAtividade() {
+
+	public TipoAtividade getTipoAtividade() {
 		return tipoAtividade;
 	}
 
-	public void setTipoAtividade(int tipoAtividade) {
+	public void setTipoAtividade(TipoAtividade tipoAtividade) {
 		this.tipoAtividade = tipoAtividade;
 	}
 
