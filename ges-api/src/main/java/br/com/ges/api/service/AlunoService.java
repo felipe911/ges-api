@@ -15,7 +15,6 @@ public class AlunoService {
 
 	private static final String ANE = "Aluno não encontrado.";
 	private static final String ALUNO_JA_REGISTRADO = "Já existe um aluno registrado com este RA.";
-	private String mensagem = null;
 
 	@Autowired
 	private AlunoRepository alunoRepository;
@@ -37,12 +36,11 @@ public class AlunoService {
 		
 		try {
 			alunoRepository.deleteById(id);
-			this.mensagem = "Aluno deletado com sucesso.";
+			return "Aluno deletado com sucesso.";
+			
 		} catch (Exception e) {
-			// TODO: Criar Exception correta
+			throw new BusinessException("Erro ao deletar Aluno.");
 		}
-		
-		return this.mensagem;
 	}
 	
 	
@@ -52,12 +50,12 @@ public class AlunoService {
 			
 			verificaDuplicidadeRa(aluno, aluno.getId());
 			alunoRepository.save(aluno);
+			return "Aluno registrado com sucesso.";
 			
 		} catch (Exception e) {
-			// TODO: Verificar mensagem de erro retornada para o usuário.
+			throw new BusinessException(ALUNO_JA_REGISTRADO);
 		}
 		
-		return this.mensagem = "Aluno registrado com sucesso.";
 	}
 
 	
@@ -70,13 +68,11 @@ public class AlunoService {
 			verificaDuplicidadeRa(aluno, id);
 			aluno.setId(id);
 			alunoRepository.save(aluno);
+			return "Aluno atualizado com sucesso.";
 			
 		} catch (Exception e) {
-			// TODO: Criar Exception correta
+			throw new BusinessException(ALUNO_JA_REGISTRADO);
 		}
-		
-		return this.mensagem = "Aluno atualizado com sucesso.";
-
 	}
 
 

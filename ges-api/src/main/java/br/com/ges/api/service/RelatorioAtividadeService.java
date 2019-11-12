@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Estagio;
 import br.com.ges.api.model.RelatorioAtividade;
@@ -17,7 +18,6 @@ import br.com.ges.api.wrapper.RelatoriosAlunoWrapper;
 public class RelatorioAtividadeService {
 
 	private static final String RANE = "Relatório de Atividade não encontrado.";
-	private String mensagem = null;
 
 	@Autowired
 	private RelatorioAtividadeRepository relatorioAtividadeRepository;
@@ -42,18 +42,18 @@ public class RelatorioAtividadeService {
 		return (List<RelatorioAtividade>) relatorioAtividadeRepository.findAll();
 	}
 
-	public String deletar(Long id) {
+	public String deletar(Long id) throws BusinessException {
 		relatorioAtividadeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RANE));
 
 		try {
 
 			relatorioAtividadeRepository.deleteById(id);
+			return "Relatório de Atividade deletado com sucesso.";
 
 		} catch (Exception e) {
-			// TODO: Criar Exception correta
+			throw new BusinessException("Erro ao deletar o Relatório de Atividade.");
 		}
 
-		return this.mensagem = "Relatório de Atividade deletado com sucesso.";
 	}
 
 	public String salvar(RelatoriosAlunoWrapper relatoriosAluno) {
@@ -65,23 +65,23 @@ public class RelatorioAtividadeService {
 		relatorioAtividade.setEstagioRelatorioAtividade(estagioAluno);
 		relatorioAtividadeRepository.save(relatorioAtividade);
 
-		return "Relatório de atividade salvo com sucesso";
+		return "Relatório de atividade salvo com sucesso.";
 
 	}
 
-	public String atualizar(Long id, RelatorioAtividade relatorioAtividade) {
+	public String atualizar(Long id, RelatorioAtividade relatorioAtividade) throws BusinessException {
 
 		relatorioAtividadeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RANE));
 		
 		try {
 			relatorioAtividade.setId(id);
 			relatorioAtividadeRepository.save(relatorioAtividade);
+			return "Relatório de Atividade alterado com sucesso.";
 
 		} catch (Exception e) {
-			// TODO: Criar Exception correta
+			throw new BusinessException("Erro ao alterar o Relatório de Atividade.");
 		}
 
-		return this.mensagem = "Relatório de Atividade alterado com sucesso.";
 
 	}
 

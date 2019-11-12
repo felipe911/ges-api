@@ -19,7 +19,6 @@ import br.com.ges.api.wrapper.AssociarContratoWrapper;
 public class ContratoService {
 
 	private static final String CNE = "Contrato não encontrado.";
-	private String mensagem = null;
 
 	@Autowired
 	private ContratoRepository contratoRepository;
@@ -43,21 +42,20 @@ public class ContratoService {
 				.orElseThrow(() -> new ResourceNotFoundException(CNE));
 		
 		if (possuiEstagioAtivoNoContrato(contratoEncontrado)) {
-			return this.mensagem;
+			return "Não é possivel deletar um contrato com estágio ativo.";
 			
 		} else {
 			try {
 				contratoRepository.deleteById(id);
-				this.mensagem = "Contrato deletado com sucesso.";
+				return "Contrato deletado com sucesso.";
 			} catch (Exception e) {
-				// TODO: Criar Exception correta
+				throw new BusinessException("Erro ao deletar o Contrato.");
 			}
 		}
-		return this.mensagem;
 	}
 	
 	
-	public String associarContrato(AssociarContratoWrapper associarContrato) {
+	public String associarContrato(AssociarContratoWrapper associarContrato) throws BusinessException {
 
 		Contrato contrato = new Contrato();
 		Estagio estagio = new Estagio();
@@ -73,12 +71,13 @@ public class ContratoService {
 			estagio.setStatus(StatusEstagio.ATIVO);
 			estagioRepository.save(estagio);
 			
+			return "Contrato Associado com sucesso.";
+			
 		} catch (Exception e) {
-			// TODO: Criar exception de erro ao associar Contrato
+			throw new BusinessException("Erro ao Associar Contrato.");
 		}
 		
 		
-		return this.mensagem = "Contrato Associado com sucesso.";
 	}
 
 
@@ -89,19 +88,18 @@ public class ContratoService {
 			Estagio estagio = estagioRepository.findByContratoId(contratoEncontrado.getId());
 			
 			if(estagio.getStatus() == StatusEstagio.ATIVO) {
-				this.mensagem = "Não é possivel deletar um contrato com estágio ativo";
 				return true;
 			}
 			
 		} catch (Exception e) {
-			// TODO: Criar Exception Erro ao encontrar Contrato.
+			throw new ResourceNotFoundException();
 		}
 		
 		return false;
 	}
 	
 	
-	public String atualizar(Long id, Contrato contrato) {
+	public String atualizar(Long id, Contrato contrato) throws BusinessException {
 		
 		contratoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CNE));
 		String dtProrrogado = null;
@@ -110,11 +108,11 @@ public class ContratoService {
 			
 			dtProrrogado = Util.localDateParaString(contrato.getProrrogadoAte());
 			contratoRepository.save(contrato);
+			return "Contrato prorrogado até: " + dtProrrogado;
 			
 		} catch (Exception e) {
-			// TODO: Criar exception de erro ao atualizar Contrato
+			throw new BusinessException("Erro ao atualizar o Contrato.");
 		}
 		
-		return this.mensagem = "Contrato prorrogado até " + dtProrrogado;
 	}
 }

@@ -35,31 +35,16 @@ public class RelatorioFinalService {
 	TipoAtividadeEstagiarioRepository tipoAtividadeEstagiarioRepository;
 
 	private static final String RFNE = "Relatório Final não encontrado.";
-	private String mensagem = null;
 
-	/**
-	 * 
-	 * Busca Relatório Final a partir de seu ID
-	 * 
-	 */
+
 	public RelatorioFinal exibir(Long id) {
 		return relatorioFinalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RFNE));
 	}
 	
-	/**
-	 * 
-	 * Lista todos Relatórios Finais do sistema
-	 * 
-	 */
 	public List<RelatorioFinal> listarTodos() {
 		return (List<RelatorioFinal>) relatorioFinalRepository.findAll();
 	}
 
-	/**
-	 * 
-	 * Lista todos Relatórios Finais de um Aluno
-	 * 
-	 */
 	public List<RelatorioFinal> buscaRelatorioFinalDoAluno(Aluno aluno) {
 
 		Estagio estagioAluno = estagioRepository.findByAluno(aluno);
@@ -69,24 +54,19 @@ public class RelatorioFinalService {
 		return relatoriosAluno;
 	}
 
-	/**
-	 * 
-	 * Deleta o registro de Relatório Final a partir de seu ID
-	 * 
-	 */
-	public String deletar(Long id) {
+	public String deletar(Long id) throws BusinessException {
 		RelatorioFinal relatorioFinal = relatorioFinalRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(RFNE));
 
 		try {
 			deletaTipoAtividadeEstagiario(id);
 			relatorioFinalRepository.delete(relatorioFinal);
+			return "Relatório Final deletado com sucesso.";
 
 		} catch (Exception e) {
-			// TODO: Criar Exception correta
+			throw new BusinessException("Erro ao deletar Relatório Final.");
 		}
 
-		return this.mensagem = "Relatório Final deletado com sucesso.";
 	}
 
 	private void deletaTipoAtividadeEstagiario(Long id) {
@@ -98,7 +78,7 @@ public class RelatorioFinalService {
 			tipoAtividadeEstagiarioRepository.delete(tipoAtividadeEstagiario);
 
 		} catch (Exception e) {
-			// TODO: Criar Excepion correta
+			throw new ResourceNotFoundException();
 		}
 
 	}
@@ -137,10 +117,11 @@ public class RelatorioFinalService {
 					salvarTipoAtividadeEstagiario(relatorioFinal, relatoriosAluno);
 
 				}
+				
+				return "Relatório Final salvo com sucesso.";
 			}
 		}
 
-		return this.mensagem = "Relatório Final salvo com sucesso.";
 	}
 
 	/**

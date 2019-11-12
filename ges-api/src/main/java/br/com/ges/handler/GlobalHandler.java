@@ -22,7 +22,7 @@ public class GlobalHandler {
 		ApiError apiError = null;
 
 		if (ex instanceof BusinessException) {
-			apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ((BusinessException) ex).getErrorMessage(),
+			apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ((BusinessException) ex).getMessage(),
 					ERRO_INTERNO);
 		} else if (ex instanceof ResourceNotFoundException) {
 			apiError = new ApiError(HttpStatus.NOT_FOUND, ((ResourceNotFoundException) ex).getMessage(),
