@@ -9,8 +9,9 @@ public class BusinessException extends Exception {
 	public BusinessException(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
-
-	public String getErrorMessage() {
+	
+	@Override
+	public String getMessage() {
 		return errorMessage;
 	}
 

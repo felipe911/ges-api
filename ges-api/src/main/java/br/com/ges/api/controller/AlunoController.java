@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
 import br.com.ges.api.service.AlunoService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 
 @RestController
 @RequestMapping("/aluno")
@@ -29,12 +33,12 @@ public class AlunoController {
 	 * Exibe o registro do aluno
 	 * 
 	 */
-//	@ApiOperation(value = "Exibe o registro do aluno")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
-//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
-//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
-//			@ApiResponse(code = 404, message = "Não encontrado"),
-//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@ApiOperation(value = "Exibe o registro do aluno")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
+			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+			@ApiResponse(code = 404, message = "Não encontrado"),
+			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@GetMapping("/{id}")
 	public Aluno exibir(@PathVariable Long id) throws BusinessException {
 		return alunoService.exibir(id);

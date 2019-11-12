@@ -10,7 +10,6 @@ import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Contrato;
 import br.com.ges.api.model.Estagio;
-import br.com.ges.api.model.RelatorioFinal;
 import br.com.ges.api.model.RelatorioParcial;
 import br.com.ges.api.repository.EstagioRepository;
 import br.com.ges.api.repository.RelatorioParcialRepository;
@@ -26,22 +25,11 @@ public class RelatorioParcialService {
 	private EstagioRepository estagioRepository;
 
 	private static final String RPNE = "Relatório Parcial não encontrado.";
-	private String mensagem = null;
 
-	/**
-	 * 
-	 * Busca Relatório Parcial a partir de seu ID
-	 * 
-	 */
 	public RelatorioParcial exibir(Long id) {
 		return relatorioParcialRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RPNE));
 	}
 	
-	/**
-	 * 
-	 * Lista todos Relatórios Parciais de um Aluno
-	 * 
-	 */
 	public List<RelatorioParcial> buscaRelatorioParcialDoAluno(Aluno aluno) {
 
 		Estagio estagioAluno = estagioRepository.findByAluno(aluno);
@@ -51,40 +39,26 @@ public class RelatorioParcialService {
 		return relatoriosAluno;
 	}
 	
-	/**
-	 * 
-	 * Lista todos Relatórios Parciais do sistema
-	 * 
-	 */
 	public List<RelatorioParcial> listarTodos() {
 		return (List<RelatorioParcial>) relatorioParcialRepository.findAll();
 	}
 	
 	
-	/**
-	 * 
-	 * Deleta o registro de Relatório Final a partir de seu ID
-	 * 
-	 */
-	public String deletar(Long id) {
+	public String deletar(Long id) throws BusinessException {
 		RelatorioParcial relatorioParcial = relatorioParcialRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(RPNE));
 
 		try {
 			relatorioParcialRepository.delete(relatorioParcial);
+			return "Relatório Parcial deletado com sucesso.";
 
 		} catch (Exception e) {
-			// TODO: Criar Exception correta
+			throw new BusinessException("Erro ao deletar Relatório Parcial.");
 		}
 
-		return this.mensagem = "Relatório Parcial deletado com sucesso.";
 	}
 
-	/**
-	 * 
-	 * Salva um novo Relatório Parcial
-	 * 
-	 */
+
 	public String salvar(RelatoriosAlunoWrapper relatoriosAluno) throws BusinessException {
 
 		Estagio estagioAluno = estagioRepository.findByAluno(relatoriosAluno.getAluno());
@@ -103,9 +77,10 @@ public class RelatorioParcialService {
 			relatorioParcial = relatoriosAluno.getRelatorioParcial();
 			relatorioParcial.setEstagioRelatorioParcial(estagioAluno);
 			relatorioParcialRepository.save(relatorioParcial);
+			
+			return "Relatório Parcial salvo com sucesso.";
 		}
 
-		return this.mensagem = "Relatório Parcial salvo com sucesso.";
 	}
 
 	private void verificaDatasRelatoriosParciais(List<RelatorioParcial> buscaRelatorioParcialDoAluno,

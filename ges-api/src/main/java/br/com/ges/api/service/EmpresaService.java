@@ -15,7 +15,6 @@ public class EmpresaService {
 
 	private static final String ENE = "Empresa não encontrada.";
 	private static final String EMPRESA_JA_REGISTRADA = "Já existe uma empresa registrado com este CNPJ.";
-	private String mensagem = null;
 
 	@Autowired
 	private EmpresaRepository empresaRepository;
@@ -37,12 +36,12 @@ public class EmpresaService {
 		try {
 			
 			empresaRepository.deleteById(id);
+			return "Empresa deletada com sucesso.";
 			
 		} catch (Exception e) {
-			// TODO: Criar Exception correta
+			throw new BusinessException("Erro ao deletar a empresa.");
 		}
 
-		return this.mensagem = "Empresa deletada com sucesso.";
 	}
 
 	
@@ -52,12 +51,11 @@ public class EmpresaService {
 			
 			verificaDuplicidadeCnpj(empresa, empresa.getId());
 			empresaRepository.save(empresa);
+			return "Empresa registrada com sucesso.";
 			
 		} catch (Exception e) {
-			// TODO: Verificar mensagem de erro retornada para o usuário.
+			throw new BusinessException(EMPRESA_JA_REGISTRADA);
 		}
-		
-		return this.mensagem = "Empresa registrada com sucesso.";
 	}
 
 	
@@ -69,12 +67,12 @@ public class EmpresaService {
 			verificaDuplicidadeCnpj(empresa, id);
 			empresa.setId(id);
 			empresaRepository.save(empresa);
+			return "Empresa atualizada com sucesso.";
 
 		} catch (Exception e) {
-			// TODO: Criar Exception correta
+			throw new BusinessException(EMPRESA_JA_REGISTRADA);
 		}
 
-		return this.mensagem = "Empresa atualizada com sucesso.";
 	}
 	
 	
