@@ -3,6 +3,8 @@ package br.com.ges.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ges.api.exception.BusinessException;
@@ -57,8 +60,8 @@ public class AlunoController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@GetMapping(produces = "application/json")
-	public List<Aluno> listar() {
-		return alunoService.listar();
+	public Page<Aluno> listar(Pageable paginacao) {
+		return alunoService.listar(paginacao);
 	}
 	
 	
