@@ -55,7 +55,7 @@ public class AlunoService {
 			return "Aluno registrado com sucesso.";
 			
 		} catch (Exception e) {
-			throw new BusinessException(ALUNO_JA_REGISTRADO);
+			throw new BusinessException(e.getMessage());
 		}
 		
 	}

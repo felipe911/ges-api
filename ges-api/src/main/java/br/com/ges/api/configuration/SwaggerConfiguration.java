@@ -1,3 +1,4 @@
+package br.com.ges.api.configuration;
 //package br.com.ges.api.config;
 //
 //import java.util.Arrays;

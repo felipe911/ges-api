@@ -7,12 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "perfil")
-public class Perfil implements GrantedAuthority {
+//public class Perfil implements GrantedAuthority {
 
+	public class Perfil  {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -38,8 +40,8 @@ public class Perfil implements GrantedAuthority {
 		this.tipoUsuario = tipoUsuario;
 	}
 
-	@Override
-	public String getAuthority() {
-		return this.tipoUsuario;
-	}
+//	@Override
+//	public String getAuthority() {
+//		return this.tipoUsuario;
+//	}
 }
