@@ -1,12 +1,17 @@
 package br.com.ges.api.service;
 
+import java.net.URI;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
@@ -46,13 +51,17 @@ public class AlunoService {
 	}
 	
 	
-	public String salvar(Aluno aluno) throws BusinessException {
+	public ResponseEntity<Aluno> salvar(Aluno aluno, HttpServletResponse response) throws BusinessException {
 
 		try {
 			
 			verificaDuplicidadeRa(aluno, aluno.getId());
-			alunoRepository.save(aluno);
-			return "Aluno registrado com sucesso.";
+			Aluno alunoSalvo = alunoRepository.save(aluno);
+			
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+					.buildAndExpand(alunoSalvo.getId()).toUri();
+			response.setHeader("Location", uri.toASCIIString());
+			return ResponseEntity.created(uri).body(alunoSalvo);
 			
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage());
@@ -95,4 +104,19 @@ public class AlunoService {
 
 		}
 	}
+
+
+	public Aluno buscaAlunoPorRa(Aluno alunoRa) throws BusinessException {
+		
+		List<Aluno> alunoEncontrado = alunoRepository.findByRa(alunoRa.getRa());
+		
+		if(!alunoEncontrado.isEmpty()) {
+			return alunoEncontrado.iterator().next();
+		} else {
+			throw new BusinessException(ANE);
+		}
+	}
+
+
+
 }

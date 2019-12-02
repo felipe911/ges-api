@@ -1,8 +1,11 @@
 package br.com.ges.api.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +45,22 @@ public class AlunoController {
 	@GetMapping("/{id}")
 	public Aluno exibir(@PathVariable Long id) throws BusinessException {
 		return alunoService.exibir(id);
+	}
+	
+	/**
+	 * 
+	 * Busca Aluno pelo RA
+	 * 
+	 */
+//	@ApiOperation(value = "Busca Aluno pelo RA")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Aluno.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@GetMapping("/busca-por-ra")
+	public Aluno buscaPorRa(@RequestBody Aluno aluno) throws BusinessException {
+		return alunoService.buscaAlunoPorRa(aluno);
 	}
 	
 	
@@ -90,8 +109,8 @@ public class AlunoController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@PostMapping()
-	public String salvar(@RequestBody Aluno aluno) throws BusinessException {
-		return alunoService.salvar(aluno);
+	public ResponseEntity<Aluno> salvar(@RequestBody Aluno aluno, HttpServletResponse response) throws BusinessException {
+		return alunoService.salvar(aluno, response);
 	}
 
 	
