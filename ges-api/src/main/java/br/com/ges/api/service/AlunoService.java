@@ -15,7 +15,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
+import br.com.ges.api.model.Estagio;
 import br.com.ges.api.repository.AlunoRepository;
+import br.com.ges.api.repository.EstagioRepository;
 
 @Service
 public class AlunoService {
@@ -26,66 +28,63 @@ public class AlunoService {
 	@Autowired
 	private AlunoRepository alunoRepository;
 
-	
+	@Autowired
+	private EstagioRepository estagioRepository;
+
 	public Aluno exibir(Long id) {
 		return alunoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ANE));
 	}
-	
 
 	public Page<Aluno> listar(Pageable paginacao) {
 		return (Page<Aluno>) alunoRepository.findAll(paginacao);
 	}
-	
 
 	public String deletar(Long id) throws BusinessException {
-		
+
 		alunoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ANE));
-		
+
 		try {
 			alunoRepository.deleteById(id);
 			return "Aluno deletado com sucesso.";
-			
+
 		} catch (Exception e) {
 			throw new BusinessException("Erro ao deletar Aluno.");
 		}
 	}
-	
-	
+
 	public ResponseEntity<Aluno> salvar(Aluno aluno, HttpServletResponse response) throws BusinessException {
 
 		try {
-			
+
 			verificaDuplicidadeRa(aluno, aluno.getId());
 			Aluno alunoSalvo = alunoRepository.save(aluno);
-			
+
 			URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
 					.buildAndExpand(alunoSalvo.getId()).toUri();
 			response.setHeader("Location", uri.toASCIIString());
 			return ResponseEntity.created(uri).body(alunoSalvo);
-			
+
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
-		
+
 	}
 
-	
 	public String atualizar(Long id, Aluno aluno) throws BusinessException {
 
 		alunoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ANE));
 
 		try {
-			
+
 			verificaDuplicidadeRa(aluno, id);
 			aluno.setId(id);
 			alunoRepository.save(aluno);
 			return "Aluno atualizado com sucesso.";
-			
+
 		} catch (Exception e) {
 			throw new BusinessException(ALUNO_JA_REGISTRADO);
 		}
 	}
-
 
 	public void verificaDuplicidadeRa(Aluno aluno, Long id) throws BusinessException {
 
@@ -105,18 +104,32 @@ public class AlunoService {
 		}
 	}
 
-
 	public Aluno buscaAlunoPorRa(Aluno alunoRa) throws BusinessException {
-		
+
 		List<Aluno> alunoEncontrado = alunoRepository.findByRa(alunoRa.getRa());
-		
-		if(!alunoEncontrado.isEmpty()) {
-			return alunoEncontrado.iterator().next();
+
+		if (!alunoEncontrado.isEmpty()) {
+
+			if (validaAlunoComEstagio(alunoEncontrado.iterator().next())) {
+				return alunoEncontrado.iterator().next();
+				
+			} else {
+				throw new BusinessException("Este aluno já possui estágio vinculado.");
+			}
+
 		} else {
 			throw new BusinessException(ANE);
 		}
 	}
 
+	private boolean validaAlunoComEstagio(Aluno aluno) {
 
+		Estagio estagioAluno = estagioRepository.findByAluno(aluno);
+
+		if (estagioAluno == null)
+			return true;
+
+		return false;
+	}
 
 }

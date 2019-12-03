@@ -41,12 +41,12 @@ public class Aluno {
 	@NotNull
 	@JsonProperty
 	@Column(name = "semestre")
-	private int semestre;
+	private String semestre;
 
 	@NotNull
 	@JsonProperty
 	@Column(name = "periodo")
-	private int periodo;
+	private String periodo;
 
 	@NotNull
 	@JsonProperty
@@ -100,19 +100,19 @@ public class Aluno {
 		this.curso = curso;
 	}
 
-	public int getSemestre() {
+	public String getSemestre() {
 		return semestre;
 	}
 
-	public void setSemestre(int semestre) {
+	public void setSemestre(String semestre) {
 		this.semestre = semestre;
 	}
 
-	public int getPeriodo() {
+	public String getPeriodo() {
 		return periodo;
 	}
 
-	public void setPeriodo(int periodo) {
+	public void setPeriodo(String periodo) {
 		this.periodo = periodo;
 	}
 

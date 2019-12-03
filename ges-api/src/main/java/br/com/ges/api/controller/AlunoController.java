@@ -58,7 +58,7 @@ public class AlunoController {
 //			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
-	@GetMapping("/busca-por-ra")
+	@PostMapping("/busca-por-ra")
 	public Aluno buscaPorRa(@RequestBody Aluno aluno) throws BusinessException {
 		return alunoService.buscaAlunoPorRa(aluno);
 	}
