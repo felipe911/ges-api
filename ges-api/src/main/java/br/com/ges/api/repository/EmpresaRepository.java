@@ -9,4 +9,6 @@ import br.com.ges.api.model.Empresa;
 public interface EmpresaRepository extends JpaRepository<Empresa, Long>{
 
 	List<Empresa> findByCnpj(String cnpj);
+	
+	Empresa findByRazaoSocial(String razaoSocial);
 }
