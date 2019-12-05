@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ges.api.exception.BusinessException;
+import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Contrato;
 import br.com.ges.api.service.ContratoService;
 import br.com.ges.api.wrapper.AssociarContratoWrapper;
@@ -111,4 +112,22 @@ public class ContratoController {
 	public String atualizar(@PathVariable Long id, @RequestBody Contrato contrato) throws BusinessException {
 		return contratoService.atualizar(id, contrato);
 	}
+	
+	
+	/**
+	 * 
+	 * Busca Contrato pelo Aluno
+	 * 
+	 */
+//	@ApiOperation(value = "Busca Contrato pelo Aluno")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Contrato.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@PostMapping("/busca-por-aluno")
+	public Contrato buscaPorAluno(@RequestBody Aluno aluno) throws BusinessException {
+		return contratoService.buscaContratoPorAluno(aluno);
+	}
+	
 }
