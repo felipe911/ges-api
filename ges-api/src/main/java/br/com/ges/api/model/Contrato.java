@@ -45,12 +45,15 @@ public class Contrato {
 	@NotNull
 	@Column(name = "supervisor_estagio")
 	private String supervisorEstagio;
+	
+	@NotNull
+	@Column(name= "cargo_supervisor")
+	private String cargoSupervisorEstagio;
 
 	@NotNull
 	@Column(name = "email_supervisor")
 	private String emailSupervisor;
 
-	@NotNull
 	@Column(name = "observacao")
 	private String observacao;
 
@@ -128,6 +131,14 @@ public class Contrato {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+
+	public String getCargoSupervisorEstagio() {
+		return cargoSupervisorEstagio;
+	}
+
+	public void setCargoSupervisorEstagio(String cargoSupervisorEstagio) {
+		this.cargoSupervisorEstagio = cargoSupervisorEstagio;
 	}
 
 	public Empresa getEmpresa() {
