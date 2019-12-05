@@ -1,13 +1,20 @@
 package br.com.ges.api.service;
 
+import java.net.URI;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ges.api.enums.StatusEstagio;
 import br.com.ges.api.exception.BusinessException;
+import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Contrato;
 import br.com.ges.api.model.Estagio;
 import br.com.ges.api.repository.ContratoRepository;
@@ -55,12 +62,14 @@ public class ContratoService {
 	}
 	
 	
-	public String associarContrato(AssociarContratoWrapper associarContrato) throws BusinessException {
+	public ResponseEntity<Contrato> associarContrato(AssociarContratoWrapper associarContrato, HttpServletResponse response) throws BusinessException {
 
 		Contrato contrato = new Contrato();
 		Estagio estagio = new Estagio();
 
 		try {
+			
+			verificaAlunoComContrato(associarContrato.getAluno());
 			
 			contrato = associarContrato.getContrato();
 			contrato.setEmpresa(associarContrato.getEmpresa());
@@ -71,12 +80,24 @@ public class ContratoService {
 			estagio.setStatus(StatusEstagio.ATIVO);
 			estagioRepository.save(estagio);
 			
-			return "Contrato Associado com sucesso.";
+			
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+					.buildAndExpand(contratoSalvo.getId()).toUri();
+			response.setHeader("Location", uri.toASCIIString());
+			
+			return ResponseEntity.created(uri).body(contratoSalvo);
 			
 		} catch (Exception e) {
-			throw new BusinessException("Erro ao Associar Contrato.");
+			throw new BusinessException(e.getMessage());
 		}
+	}
+
+	private void verificaAlunoComContrato(Aluno aluno) throws BusinessException {
+
+		Estagio estagioEncontrado = estagioRepository.findByAluno(aluno);
 		
+		if(estagioEncontrado != null)
+			throw new BusinessException("Este Aluno já possui Contrato associado.");
 		
 	}
 
