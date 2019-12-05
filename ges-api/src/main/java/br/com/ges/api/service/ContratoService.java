@@ -136,4 +136,20 @@ public class ContratoService {
 		}
 		
 	}
+
+
+	public Contrato buscaContratoPorAluno(Aluno aluno) throws BusinessException {
+		
+		try {
+			
+			Estagio estagioEncontrado = estagioRepository.findByAluno(aluno);
+			
+			if(estagioEncontrado != null)
+				return estagioEncontrado.getContrato();
+			
+		} catch (Exception e) {
+			throw new BusinessException(CNE);
+		}
+		return null;
+	}
 }
