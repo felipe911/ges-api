@@ -44,9 +44,6 @@ public class RelatorioParcial {
 
 	@Column(name = "dificuldades")
 	private String dificuldades;
-
-	@Column(name = "consideracoes_supervisor")
-	private String consideracoesSupervisor;
 	
 	@ManyToOne
 	@JsonIgnore
@@ -132,14 +129,6 @@ public class RelatorioParcial {
 
 	public void setDificuldades(String dificuldades) {
 		this.dificuldades = dificuldades;
-	}
-
-	public String getConsideracoesSupervisor() {
-		return consideracoesSupervisor;
-	}
-
-	public void setConsideracoesSupervisor(String consideracoesSupervisor) {
-		this.consideracoesSupervisor = consideracoesSupervisor;
 	}
 
 	public Estagio getEstagioRelatorioParcial() {

@@ -1,10 +1,16 @@
 package br.com.ges.api.service;
 
+import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
@@ -59,9 +65,11 @@ public class RelatorioParcialService {
 	}
 
 
-	public String salvar(RelatoriosAlunoWrapper relatoriosAluno) throws BusinessException {
+	public ResponseEntity<RelatorioParcial> salvar(RelatoriosAlunoWrapper relatoriosAluno, HttpServletResponse response) throws BusinessException {
 
 		Estagio estagioAluno = estagioRepository.findByAluno(relatoriosAluno.getAluno());
+		
+		relatoriosAluno.getRelatorioParcial().setPeriodoAte(LocalDate.now().plusDays(182));
 
 		verificaDatasRelatoriosParciais(buscaRelatorioParcialDoAluno(relatoriosAluno.getAluno()),
 				relatoriosAluno.getRelatorioParcial());
@@ -73,12 +81,22 @@ public class RelatorioParcialService {
 
 		} else {
 
-			RelatorioParcial relatorioParcial = new RelatorioParcial();
-			relatorioParcial = relatoriosAluno.getRelatorioParcial();
-			relatorioParcial.setEstagioRelatorioParcial(estagioAluno);
-			relatorioParcialRepository.save(relatorioParcial);
+			try {
+				
+				RelatorioParcial relatorioParcial = new RelatorioParcial();
+				relatorioParcial = relatoriosAluno.getRelatorioParcial();
+				relatorioParcial.setEstagioRelatorioParcial(estagioAluno);
+				RelatorioParcial relatorioParcialSalvo = relatorioParcialRepository.save(relatorioParcial);
+				
+				URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+						.buildAndExpand(relatorioParcialSalvo.getId()).toUri();
+				response.setHeader("Location", uri.toASCIIString());
+				return ResponseEntity.created(uri).body(relatorioParcialSalvo);
+				
+			} catch (Exception e) {
+				throw new BusinessException(e.getMessage());
+			}
 			
-			return "Relatório Parcial salvo com sucesso.";
 		}
 
 	}
