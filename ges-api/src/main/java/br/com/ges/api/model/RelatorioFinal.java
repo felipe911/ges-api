@@ -41,6 +41,9 @@ public class RelatorioFinal {
 	@Column(name = "area_atividade")
 	private String areaAtividade;
 	
+	@Column(name = "especificacao_outros")
+	private String especificacaoOutros;
+	
 	@OneToOne
 	@JoinColumn(name = "id_estagio", referencedColumnName = "id")
 	@JsonIgnore
@@ -120,6 +123,14 @@ public class RelatorioFinal {
 
 	public void setRelatorioEntregue(boolean relatorioEntregue) {
 		this.relatorioEntregue = relatorioEntregue;
+	}
+
+	public String getEspecificacaoOutros() {
+		return especificacaoOutros;
+	}
+
+	public void setEspecificacaoOutros(String especificacaoOutros) {
+		this.especificacaoOutros = especificacaoOutros;
 	}
 
 	@Override
