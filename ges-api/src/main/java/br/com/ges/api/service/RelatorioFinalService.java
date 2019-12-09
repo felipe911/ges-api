@@ -1,10 +1,15 @@
 package br.com.ges.api.service;
 
+import java.net.URI;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.ges.api.enums.TipoAtividade;
 import br.com.ges.api.exception.BusinessException;
@@ -89,7 +94,7 @@ public class RelatorioFinalService {
 	 * registrado um Relatório Final
 	 * 
 	 */
-	public String salvar(RelatoriosAlunoWrapper relatoriosAluno) throws BusinessException {
+	public ResponseEntity<RelatorioFinal> salvar(RelatoriosAlunoWrapper relatoriosAluno, HttpServletResponse response) throws BusinessException {
 
 		Estagio estagioAluno = estagioRepository.findByAluno(relatoriosAluno.getAluno());
 
@@ -105,20 +110,32 @@ public class RelatorioFinalService {
 						+ "registradas nos Relatórios de Atividades não atinge a quantidade de 200 horas.");
 
 			} else {
-
-				RelatorioFinal relatorioFinal = new RelatorioFinal();
-				relatorioFinal = relatoriosAluno.getRelatorioFinal();
-				relatorioFinal.setEstagioRelatorioFinal(estagioAluno);
-				relatorioFinalRepository.save(relatorioFinal);
-
-				if (relatoriosAluno.getTipoAtividadeEstagiario() != null
-						&& relatoriosAluno.getRelatorioFinal().getTipoAtividade() == TipoAtividade.ESTAGIARIO) {
-
-					salvarTipoAtividadeEstagiario(relatorioFinal, relatoriosAluno);
-
-				}
 				
-				return "Relatório Final salvo com sucesso.";
+				try {
+					
+					RelatorioFinal relatorioFinal = new RelatorioFinal();
+					relatorioFinal = relatoriosAluno.getRelatorioFinal();
+					relatorioFinal.setEstagioRelatorioFinal(estagioAluno);
+					RelatorioFinal relatorioFinalSalvo = relatorioFinalRepository.save(relatorioFinal);
+					
+					URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+							.buildAndExpand(relatorioFinalSalvo.getId()).toUri();
+					response.setHeader("Location", uri.toASCIIString());
+					
+					
+					if (relatoriosAluno.getRelatorioFinal().getTipoAtividade() != null
+							&& relatoriosAluno.getRelatorioFinal().getTipoAtividade() == TipoAtividade.ESTAGIARIO) {
+						
+						salvarTipoAtividadeEstagiario(relatorioFinal, relatoriosAluno);
+						
+					}
+					
+					return ResponseEntity.created(uri).body(relatorioFinalSalvo);
+					
+				} catch (Exception e) {
+					throw new BusinessException(e.getMessage());
+				}
+
 			}
 		}
 
@@ -131,20 +148,22 @@ public class RelatorioFinalService {
 	 * 
 	 */
 	private boolean verificaHorasCumpridasDoEstagio(Long idAluno) {
-		Estagio estagioAluno = estagioRepository.findByAlunoId(idAluno);
-		List<RelatorioAtividade> relatoriosAluno = relatorioAtividadeRepository
-				.findByEstagioRelatorioAtividadeId(estagioAluno.getId());
+//		Estagio estagioAluno = estagioRepository.findByAlunoId(idAluno);
+//		List<RelatorioAtividade> relatoriosAluno = relatorioAtividadeRepository
+//				.findByEstagioRelatorioAtividadeId(estagioAluno.getId());
+//
+//		int qtdHorasAtividades = 0;
+//
+//		for (RelatorioAtividade relatorioAtividade : relatoriosAluno) {
+//			qtdHorasAtividades = qtdHorasAtividades + relatorioAtividade.getQtdHoras();
+//		}
+//
+//		if (qtdHorasAtividades != 200) {
+//			return true;
+//		}
 
-		int qtdHorasAtividades = 0;
-
-		for (RelatorioAtividade relatorioAtividade : relatoriosAluno) {
-			qtdHorasAtividades = qtdHorasAtividades + relatorioAtividade.getQtdHoras();
-		}
-
-		if (qtdHorasAtividades != 200) {
-			return true;
-		}
-
+//		return false;
+		
 		return false;
 	}
 
