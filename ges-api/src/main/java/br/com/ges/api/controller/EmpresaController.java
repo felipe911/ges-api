@@ -1,10 +1,10 @@
 package br.com.ges.api.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ges.api.exception.BusinessException;
-import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Empresa;
 import br.com.ges.api.service.EmpresaService;
 
@@ -57,10 +56,9 @@ public class EmpresaController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@GetMapping(produces = "application/json")
-	public Page<Empresa> listar(Pageable paginacao) {
-		return empresaService.listar(paginacao);
+	public List<Empresa> listar() {
+		return empresaService.listar();
 	}
-	
 	
 	/**
 	 * Deleta um registro de Empresa caso ele exista

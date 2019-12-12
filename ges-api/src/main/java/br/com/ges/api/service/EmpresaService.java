@@ -1,6 +1,7 @@
 package br.com.ges.api.service;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -33,10 +34,9 @@ public class EmpresaService {
 	}
 
 	
-	public Page<Empresa> listar(Pageable paginacao) {
-		return (Page<Empresa>) empresaRepository.findAll(paginacao);
+	public List<Empresa> listar() {
+		return empresaRepository.findAll();
 	}
-	
 	
 	public String deletar(Long id) throws BusinessException {
 		empresaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ENE));

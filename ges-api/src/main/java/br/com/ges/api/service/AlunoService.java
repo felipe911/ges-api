@@ -35,8 +35,8 @@ public class AlunoService {
 		return alunoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ANE));
 	}
 
-	public Page<Aluno> listar(Pageable paginacao) {
-		return (Page<Aluno>) alunoRepository.findAll(paginacao);
+	public List<Aluno> listar() {
+		return alunoRepository.findAll();
 	}
 
 	public String deletar(Long id) throws BusinessException {

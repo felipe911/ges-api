@@ -1,5 +1,7 @@
 package br.com.ges.api.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Contrato;
 import br.com.ges.api.service.ContratoService;
 import br.com.ges.api.wrapper.AssociarContratoWrapper;
+import br.com.ges.api.wrapper.ContratoConsultaWrapper;
 
 @RestController
 @RequestMapping("/contrato")
@@ -58,8 +61,24 @@ public class ContratoController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@GetMapping(produces = "application/json")
-	public Page<Contrato> listar(Pageable paginacao) {
-		return contratoService.listar(paginacao);
+	public List<Contrato> listar() {
+		return contratoService.listar();
+	}
+	
+	/**
+	 * 
+	 * Lista todos Contratos para consulta
+	 * 
+	 */
+//	@ApiOperation(value = "Lista todos os registros de Contratos para consulta")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Contrato.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@GetMapping("/contratos-consulta")
+	public List<ContratoConsultaWrapper> listarlistarContratosConsulta() {
+		return contratoService.listarContratosConsulta();
 	}
 	
 	

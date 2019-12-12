@@ -1,5 +1,7 @@
 package br.com.ges.api.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,8 +77,8 @@ public class AlunoController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@GetMapping(produces = "application/json")
-	public Page<Aluno> listar(Pageable paginacao) {
-		return alunoService.listar(paginacao);
+	public List<Aluno> listar() {
+		return alunoService.listar();
 	}
 	
 	

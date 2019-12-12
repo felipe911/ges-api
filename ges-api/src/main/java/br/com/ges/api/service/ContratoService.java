@@ -1,6 +1,8 @@
 package br.com.ges.api.service;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,10 +19,13 @@ import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Contrato;
 import br.com.ges.api.model.Estagio;
+import br.com.ges.api.repository.AlunoRepository;
 import br.com.ges.api.repository.ContratoRepository;
+import br.com.ges.api.repository.EmpresaRepository;
 import br.com.ges.api.repository.EstagioRepository;
 import br.com.ges.api.util.Util;
 import br.com.ges.api.wrapper.AssociarContratoWrapper;
+import br.com.ges.api.wrapper.ContratoConsultaWrapper;
 
 @Service
 public class ContratoService {
@@ -29,18 +34,23 @@ public class ContratoService {
 
 	@Autowired
 	private ContratoRepository contratoRepository;
+	
+	@Autowired
+	private AlunoRepository alunoRepository;
 
 	@Autowired
 	private EstagioRepository estagioRepository;
 
+	@Autowired
+	private EmpresaRepository empresaRepository;
 	
 	public Contrato exibir(Long id) {
 		return contratoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CNE));
 	}
 	
 	
-	public Page<Contrato> listar(Pageable paginacao) {
-		return (Page<Contrato>) contratoRepository.findAll(paginacao);
+	public List<Contrato> listar() {
+		return contratoRepository.findAll();
 	}
 	
 	
@@ -73,8 +83,11 @@ public class ContratoService {
 			
 			contrato = associarContrato.getContrato();
 			contrato.setEmpresa(associarContrato.getEmpresa());
+			contrato.getEmpresa().setQtdEstagiariosAtivos(contrato.getEmpresa().getQtdEstagiariosAtivos() + 1);
+			empresaRepository.save(contrato.getEmpresa());
 			
 			Contrato contratoSalvo = contratoRepository.save(contrato);
+			
 			estagio.setContrato(contratoSalvo);
 			estagio.setAluno(associarContrato.getAluno());
 			estagio.setStatus(StatusEstagio.ATIVO);
@@ -99,6 +112,63 @@ public class ContratoService {
 		if(estagioEncontrado != null)
 			throw new BusinessException("Este Aluno já possui Contrato associado.");
 		
+	}
+	
+	public List<ContratoConsultaWrapper> listarContratosConsulta(){
+		
+		List<Estagio> todosEstagios = estagioRepository.findAll();
+		List<Aluno> todosAlunos = alunoRepository.findAll();
+		List<Contrato> todosContratos = contratoRepository.findAll();
+	
+		ContratoConsultaWrapper consultaContrato = new ContratoConsultaWrapper();
+		List<ContratoConsultaWrapper> listaConsultaContrato = new ArrayList<>();
+		
+		for(int x = 0; x < todosEstagios.size(); x++) {
+			
+			consultaContrato.setStatus(verificaStatus(todosEstagios.get(x).getStatus()));
+			
+			for(int y = 0; y < todosAlunos.size(); y++) {
+				
+				//Adiciona dados do Aluno
+				if(todosEstagios.get(x).getAluno().getId() == todosAlunos.get(y).getId()) {
+					consultaContrato.setNomeAluno(todosAlunos.get(y).getNome());
+					consultaContrato.setCurso(todosAlunos.get(y).getCurso());
+				}
+			}
+			
+			for(int j = 0; j < todosContratos.size(); j++) {
+				
+				if(todosEstagios.get(x).getContrato().getId() == todosContratos.get(j).getId()) {
+					consultaContrato.setEmpresaAssociada(todosContratos.get(j).getEmpresa().getRazaoSocial());
+					consultaContrato.setDataInicio(todosContratos.get(j).getDataInicio());
+					consultaContrato.setDataFim(todosContratos.get(j).getDataFim());
+					consultaContrato.setAgenteIntegracao(todosContratos.get(j).getAgenteIntegracao());
+					consultaContrato.setSupervisor(todosContratos.get(j).getSupervisorEstagio());
+				}
+			}
+			
+			listaConsultaContrato.add(consultaContrato);
+			consultaContrato = new ContratoConsultaWrapper();
+		}
+		
+		return listaConsultaContrato;
+	}
+
+
+	private String verificaStatus(StatusEstagio status) {
+		if(status == StatusEstagio.ATIVO) {
+			return "Ativo";
+		}
+		
+		if(status == StatusEstagio.CANCELADO) {
+			return "Cancelado";
+		}
+		
+		if(status == StatusEstagio.FINALIZADO) {
+			return "Finalizado";
+		}
+		
+		return "";
 	}
 
 

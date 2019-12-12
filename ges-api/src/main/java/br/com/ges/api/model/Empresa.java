@@ -67,6 +67,9 @@ public class Empresa {
 	@NotNull
 	@Column(name = "prazo_convenio")
 	private LocalDate prazoConvenio;
+	
+	@Column(name = "qtd_estagiarios_ativos")
+	private int qtdEstagiariosAtivos;
 
 	public Long getId() {
 		return id;
@@ -170,6 +173,14 @@ public class Empresa {
 
 	public void setPrazoConvenio(LocalDate prazoConvenio) {
 		this.prazoConvenio = prazoConvenio;
+	}
+
+	public int getQtdEstagiariosAtivos() {
+		return qtdEstagiariosAtivos;
+	}
+
+	public void setQtdEstagiariosAtivos(int qtdEstagiariosAtivos) {
+		this.qtdEstagiariosAtivos = qtdEstagiariosAtivos;
 	}
 
 	@Override
