@@ -1,6 +1,6 @@
 # GES - API
 
-Projeto de API para o Gerenciador de Estágio Supervisionado.
+Projeto de API para o Gerenciador de Estágio Supervisionado
 
 ## Principais Tecnologias Utilizadas
 
@@ -12,7 +12,7 @@ Projeto de API para o Gerenciador de Estágio Supervisionado.
 
 * Realizar o download ou clonar o repositório, importar o projeto preferencialmente com a IDE Eclipse e com Maven instalado
 
-* Aguardar o maven realizar o download de todas as dependências do projeto
+* Aguardar o Maven realizar o download de todas as dependências do projeto
 
 * Possuir a instalação do Software SQL Server 2012 instalada
 
