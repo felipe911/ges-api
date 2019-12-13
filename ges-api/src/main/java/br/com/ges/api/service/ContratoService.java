@@ -26,6 +26,7 @@ import br.com.ges.api.repository.EstagioRepository;
 import br.com.ges.api.util.Util;
 import br.com.ges.api.wrapper.AssociarContratoWrapper;
 import br.com.ges.api.wrapper.ContratoConsultaWrapper;
+import br.com.ges.api.wrapper.EntregaRelatorioWrapper;
 
 @Service
 public class ContratoService {

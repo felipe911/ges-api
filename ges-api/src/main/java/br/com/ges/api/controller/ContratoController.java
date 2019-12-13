@@ -23,6 +23,7 @@ import br.com.ges.api.model.Contrato;
 import br.com.ges.api.service.ContratoService;
 import br.com.ges.api.wrapper.AssociarContratoWrapper;
 import br.com.ges.api.wrapper.ContratoConsultaWrapper;
+import br.com.ges.api.wrapper.EntregaRelatorioWrapper;
 
 @RestController
 @RequestMapping("/contrato")
@@ -133,7 +134,7 @@ public class ContratoController {
 	}
 	
 	
-	/**gi
+	/**
 	 * 
 	 * Busca Contrato pelo Aluno
 	 * 
