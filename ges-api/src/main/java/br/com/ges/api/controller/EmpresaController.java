@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ges.api.exception.BusinessException;
@@ -71,8 +73,9 @@ public class EmpresaController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@DeleteMapping("/{id}")
-	public String deletar(@PathVariable Long id) throws BusinessException {
-		return empresaService.deletar(id);
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletar(@PathVariable Long id) throws BusinessException {
+		 empresaService.deletar(id);
 	}
 	
 
@@ -105,8 +108,8 @@ public class EmpresaController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@PutMapping("/{id}")
-	public String atualizar(@PathVariable Long id, @RequestBody Empresa empresa) throws BusinessException {
-		return empresaService.atualizar(id, empresa);
+	public ResponseEntity<Empresa> atualizar(@PathVariable Long id, @RequestBody Empresa empresa, HttpServletResponse response) throws BusinessException {
+		return empresaService.atualizar(id, empresa, response);
 	}
 	
 	
