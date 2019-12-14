@@ -5,8 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +21,6 @@ import br.com.ges.api.model.Contrato;
 import br.com.ges.api.service.ContratoService;
 import br.com.ges.api.wrapper.AssociarContratoWrapper;
 import br.com.ges.api.wrapper.ContratoConsultaWrapper;
-import br.com.ges.api.wrapper.EntregaRelatorioWrapper;
 
 @RestController
 @RequestMapping("/contrato")
@@ -94,8 +91,8 @@ public class ContratoController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@DeleteMapping("/{id}")
-	public String deletar(@PathVariable Long id) throws BusinessException {
-		return contratoService.deletar(id);
+	public void deletar(@PathVariable Long id) throws BusinessException {
+		 contratoService.deletar(id);
 	}
 	
 

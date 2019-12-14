@@ -7,8 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,6 @@ import br.com.ges.api.repository.EstagioRepository;
 import br.com.ges.api.util.Util;
 import br.com.ges.api.wrapper.AssociarContratoWrapper;
 import br.com.ges.api.wrapper.ContratoConsultaWrapper;
-import br.com.ges.api.wrapper.EntregaRelatorioWrapper;
 
 @Service
 public class ContratoService {
@@ -55,17 +52,17 @@ public class ContratoService {
 	}
 	
 	
-	public String deletar(Long id) throws BusinessException {
+	public void deletar(Long id) throws BusinessException {
 		Contrato contratoEncontrado = contratoRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(CNE));
 		
 		if (possuiEstagioAtivoNoContrato(contratoEncontrado)) {
-			return "Não é possivel deletar um contrato com estágio ativo.";
+			throw new BusinessException("Não é possivel deletar um contrato com estágio ativo.");
 			
 		} else {
 			try {
 				contratoRepository.deleteById(id);
-				return "Contrato deletado com sucesso.";
+
 			} catch (Exception e) {
 				throw new BusinessException("Erro ao deletar o Contrato.");
 			}
@@ -140,6 +137,7 @@ public class ContratoService {
 			for(int j = 0; j < todosContratos.size(); j++) {
 				
 				if(todosEstagios.get(x).getContrato().getId() == todosContratos.get(j).getId()) {
+					consultaContrato.setContratoId(todosContratos.get(j).getId());
 					consultaContrato.setEmpresaAssociada(todosContratos.get(j).getEmpresa().getRazaoSocial());
 					consultaContrato.setDataInicio(todosContratos.get(j).getDataInicio());
 					consultaContrato.setDataFim(todosContratos.get(j).getDataFim());
