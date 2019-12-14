@@ -44,8 +44,6 @@ public class EntregaRelatorioService {
 	
 	@Autowired
 	private RelatorioFinalRepository relatorioFinalRepository;
-
-	
 	
 	public List<EntregaRelatorioWrapper> buscaDadosEstagiarios() {
 		
@@ -70,9 +68,4 @@ public class EntregaRelatorioService {
 		
 		return listaEntregaRelatorios;
 	}
-	
-	
-	
-	
-	
 }

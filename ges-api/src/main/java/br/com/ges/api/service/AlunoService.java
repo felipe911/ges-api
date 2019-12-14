@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.ges.api.enums.StatusEstagio;
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Estagio;
@@ -39,16 +40,23 @@ public class AlunoService {
 		return alunoRepository.findAll();
 	}
 
-	public String deletar(Long id) throws BusinessException {
+	public void deletar(Long id) throws BusinessException {
 
 		alunoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ANE));
 
-		try {
-			alunoRepository.deleteById(id);
-			return "Aluno deletado com sucesso.";
-
-		} catch (Exception e) {
-			throw new BusinessException("Erro ao deletar Aluno.");
+		Estagio estagioAluno = estagioRepository.findByAlunoId(id);
+		
+		if(estagioAluno != null && estagioAluno.getStatus() == StatusEstagio.ATIVO) {
+			throw new BusinessException("Não é possível deletar um aluno com Estágio Ativo.");
+			
+		} else {
+		
+			try {
+				alunoRepository.deleteById(id);
+	
+			} catch (Exception e) {
+				throw new BusinessException("Erro ao deletar Aluno.");
+			}
 		}
 	}
 
@@ -70,7 +78,7 @@ public class AlunoService {
 
 	}
 
-	public String atualizar(Long id, Aluno aluno) throws BusinessException {
+	public ResponseEntity<Aluno> atualizar(Long id, Aluno aluno, HttpServletResponse response) throws BusinessException {
 
 		alunoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ANE));
 
@@ -78,8 +86,13 @@ public class AlunoService {
 
 			verificaDuplicidadeRa(aluno, id);
 			aluno.setId(id);
-			alunoRepository.save(aluno);
-			return "Aluno atualizado com sucesso.";
+			Aluno alunoAtualizado = alunoRepository.save(aluno);
+			
+			
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+					.buildAndExpand(alunoAtualizado.getId()).toUri();
+			response.setHeader("Location", uri.toASCIIString());
+			return ResponseEntity.created(uri).body(alunoAtualizado);
 
 		} catch (Exception e) {
 			throw new BusinessException(ALUNO_JA_REGISTRADO);
