@@ -10,7 +10,7 @@ import br.com.ges.api.model.RelatorioParcial;
 public class EntregaRelatorioWrapper {
 
 	private Estagio estagio;
-	private List<RelatorioFinal> relatorioFinal;
+	private RelatorioFinal relatorioFinal;
 	private List<RelatorioParcial> relatorioParcial;
 	private List<RelatorioAtividade> relatorioAtividade;
 
@@ -22,11 +22,11 @@ public class EntregaRelatorioWrapper {
 		this.estagio = estagio;
 	}
 
-	public List<RelatorioFinal> getRelatorioFinal() {
+	public RelatorioFinal getRelatorioFinal() {
 		return relatorioFinal;
 	}
 
-	public void setRelatorioFinal(List<RelatorioFinal> relatorioFinal) {
+	public void setRelatorioFinal(RelatorioFinal relatorioFinal) {
 		this.relatorioFinal = relatorioFinal;
 	}
 

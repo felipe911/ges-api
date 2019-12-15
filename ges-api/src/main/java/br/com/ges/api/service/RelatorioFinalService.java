@@ -50,11 +50,10 @@ public class RelatorioFinalService {
 		return (List<RelatorioFinal>) relatorioFinalRepository.findAll();
 	}
 
-	public List<RelatorioFinal> buscaRelatorioFinalDoAluno(Aluno aluno) {
+	public RelatorioFinal buscaRelatorioFinalDoAluno(Aluno aluno) {
 
 		Estagio estagioAluno = estagioRepository.findByAluno(aluno);
-		List<RelatorioFinal> relatoriosAluno = relatorioFinalRepository
-				.findByEstagioRelatorioFinalId(estagioAluno.getId());
+		RelatorioFinal relatoriosAluno = relatorioFinalRepository.findByEstagioRelatorioFinalId(estagioAluno.getId());
 
 		return relatoriosAluno;
 	}
@@ -187,9 +186,9 @@ public class RelatorioFinalService {
 	 * 
 	 */
 	private boolean jaExisteRelatorioFinalDoAluno(Long id) {
-		List<RelatorioFinal> relatorioFinalAluno = relatorioFinalRepository.findByEstagioRelatorioFinalId(id);
+		RelatorioFinal relatorioFinalAluno = relatorioFinalRepository.findByEstagioRelatorioFinalId(id);
 
-		if (relatorioFinalAluno.isEmpty())
+		if (relatorioFinalAluno == null)
 			return false;
 
 		return true;

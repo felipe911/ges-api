@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
 import br.com.ges.api.service.AlunoService;
+import br.com.ges.api.wrapper.AlunoEstagiosWrapper;
 //import io.swagger.annotations.ApiOperation;
 //import io.swagger.annotations.ApiResponse;
 //import io.swagger.annotations.ApiResponses;
@@ -130,5 +131,21 @@ public class AlunoController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Aluno> atualizar(@PathVariable Long id, @RequestBody Aluno aluno, HttpServletResponse response) throws BusinessException {
 		return alunoService.atualizar(id, aluno, response);
+	}
+	
+	/**
+	 * 
+	 * Busca Estagios de um Aluno
+	 * 
+	 */
+//	@ApiOperation(value = "Busca Estagios de um Aluno")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Estagio.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@GetMapping("/busca-estagios-do-aluno/{id}")
+	public AlunoEstagiosWrapper buscaEstagiosDeAluno(@PathVariable Long id) throws BusinessException {
+		return alunoService.buscaEstagiosDeAluno(id);
 	}
 }

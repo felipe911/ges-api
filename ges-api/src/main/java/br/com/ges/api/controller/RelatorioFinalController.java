@@ -55,7 +55,7 @@ public class RelatorioFinalController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@PostMapping(value = "/buscar-por-aluno")
-	public List<RelatorioFinal> listar(@RequestBody Aluno aluno) {
+	public RelatorioFinal listar(@RequestBody Aluno aluno) {
 		return relatorioFinalService.buscaRelatorioFinalDoAluno(aluno);
 	}
 

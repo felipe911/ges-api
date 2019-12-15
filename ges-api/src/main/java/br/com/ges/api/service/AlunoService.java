@@ -1,6 +1,7 @@
 package br.com.ges.api.service;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Estagio;
 import br.com.ges.api.repository.AlunoRepository;
 import br.com.ges.api.repository.EstagioRepository;
+import br.com.ges.api.wrapper.AlunoEstagiosWrapper;
 
 @Service
 public class AlunoService {
@@ -42,9 +44,9 @@ public class AlunoService {
 
 		alunoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ANE));
 
-		Estagio estagioAluno = estagioRepository.findByAlunoId(id);
+		List<Estagio> estagioAluno = estagioRepository.findByAlunoId(id);
 		
-		if(estagioAluno != null && estagioAluno.getStatus() == StatusEstagio.ATIVO) {
+		if(estagioAluno != null && estagioAluno.iterator().next().getStatus() == StatusEstagio.ATIVO) {
 			throw new BusinessException("Não é possível deletar um aluno com Estágio Ativo.");
 			
 		} else {
@@ -141,6 +143,17 @@ public class AlunoService {
 			return true;
 
 		return false;
+	}
+
+	public AlunoEstagiosWrapper buscaEstagiosDeAluno(Long id) {
+
+		AlunoEstagiosWrapper alunoEstagio = new AlunoEstagiosWrapper();
+		alunoEstagio.setEstagios(new ArrayList<>());
+		
+		alunoEstagio.setAluno(alunoRepository.findById(id).get());
+		alunoEstagio.setEstagios(estagioRepository.findByAlunoId(id));
+		
+		return alunoEstagio;
 	}
 
 }

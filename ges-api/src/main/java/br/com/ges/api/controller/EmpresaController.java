@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Empresa;
 import br.com.ges.api.service.EmpresaService;
+import br.com.ges.api.wrapper.AlunosDaEmpresaWrapper;
 
 @RestController
 @RequestMapping("/empresa")
@@ -127,5 +128,22 @@ public class EmpresaController {
 	@PostMapping("/busca-por-razao-social")
 	public Empresa buscaPorRa(@RequestBody Empresa empresa) throws BusinessException {
 		return empresaService.buscaEmpresaPorRazaoSocial(empresa);
+	}
+	
+	
+	/**
+	 * 
+	 * Busca Alunos de uma Empresa
+	 * 
+	 */
+//	@ApiOperation(value = "Busca Empresa pela Razão Social")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@GetMapping("/busca-alunos-da-empresa/{id}")
+	public AlunosDaEmpresaWrapper buscaAlunosDaEmpresa(@PathVariable Long id) throws BusinessException {
+		return empresaService.buscaAlunosDaEmpresa(id);
 	}
 }

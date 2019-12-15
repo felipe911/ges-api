@@ -1,7 +1,9 @@
 package br.com.ges.api.service;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,9 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.ges.api.enums.StatusEstagio;
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Empresa;
+import br.com.ges.api.model.Estagio;
 import br.com.ges.api.repository.EmpresaRepository;
+import br.com.ges.api.repository.EstagioRepository;
+import br.com.ges.api.wrapper.AlunosDaEmpresaWrapper;
 
 @Service
 public class EmpresaService {
@@ -23,6 +29,9 @@ public class EmpresaService {
 
 	@Autowired
 	private EmpresaRepository empresaRepository;
+	
+	@Autowired
+	private EstagioRepository estagioRepository;
 
 	public Empresa exibir(Long id) {
 		return empresaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(ENE));
@@ -112,5 +121,28 @@ public class EmpresaService {
 		Empresa empresaEncontrada = empresaRepository.findByRazaoSocial(empresa.getRazaoSocial());
 
 		return empresaEncontrada;
+	}
+
+	public AlunosDaEmpresaWrapper buscaAlunosDaEmpresa(Long id) {
+		
+		AlunosDaEmpresaWrapper alunosDaEmpresa = new AlunosDaEmpresaWrapper();
+		alunosDaEmpresa.setAlunos(new ArrayList<>());
+		alunosDaEmpresa.setEmpresa(new Empresa());
+		
+		
+		Optional<Empresa> empresa = empresaRepository.findById(id);
+		List<Estagio> estagiosDaEmpresa = estagioRepository.findByContratoEmpresaId(id);
+		
+		for (Estagio estagio : estagiosDaEmpresa) {
+			
+			if(estagio.getStatus() == StatusEstagio.ATIVO) {
+				alunosDaEmpresa.getAlunos().add(estagio.getAluno());
+			}
+
+		}
+		
+		alunosDaEmpresa.setEmpresa(empresa.get());
+		
+		return alunosDaEmpresa;
 	}
 }
