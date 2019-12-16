@@ -35,4 +35,20 @@ public class EstagioController {
 		return estagioService.buscaEstagioPorContratoId(id);
 	}
 	
+	/**
+	 * 
+	 * Exibe o registro do estagio a partir do Aluno
+	 * 
+	 */
+//	@ApiOperation(value = "Exibe o registro do estagio a partir do Aluno")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Estagio.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@GetMapping("/busca-por-aluno/{id}")
+	public Estagio exibirEstagioPorAluno(@PathVariable Long id) throws BusinessException {
+		return estagioService.exibirEstagioPorAluno(id);
+	}
+	
 }

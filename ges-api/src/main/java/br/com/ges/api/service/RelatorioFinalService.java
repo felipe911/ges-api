@@ -16,9 +16,11 @@ import br.com.ges.api.enums.StatusEstagio;
 import br.com.ges.api.enums.TipoAtividade;
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
+import br.com.ges.api.model.Empresa;
 import br.com.ges.api.model.Estagio;
 import br.com.ges.api.model.RelatorioFinal;
 import br.com.ges.api.model.TipoAtividadeEstagiario;
+import br.com.ges.api.repository.EmpresaRepository;
 import br.com.ges.api.repository.EstagioRepository;
 import br.com.ges.api.repository.RelatorioAtividadeRepository;
 import br.com.ges.api.repository.RelatorioFinalRepository;
@@ -36,6 +38,9 @@ public class RelatorioFinalService {
 
 	@Autowired
 	EstagioRepository estagioRepository;
+	
+	@Autowired
+	EmpresaRepository empresaRepository;
 
 	@Autowired
 	TipoAtividadeEstagiarioRepository tipoAtividadeEstagiarioRepository;
@@ -204,6 +209,10 @@ public class RelatorioFinalService {
 		try {
 			relatorioFinalEntregue.get().setRelatorioEntregue(true);
 			estagioRelatorioFinal.get().setStatus(StatusEstagio.FINALIZADO);
+			
+			Empresa empresaAlterada = estagioRelatorioFinal.get().getContrato().getEmpresa();
+			empresaAlterada.setQtdEstagiariosAtivos(empresaAlterada.getQtdEstagiariosAtivos() - 1);
+			empresaRepository.save(empresaAlterada);
 			
 			RelatorioFinal relatorioFinalEntregueFinalizado = relatorioFinalRepository.save(relatorioFinalEntregue.get());
 			estagioRepository.save(estagioRelatorioFinal.get());
