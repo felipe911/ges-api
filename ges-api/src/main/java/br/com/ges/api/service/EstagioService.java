@@ -34,4 +34,15 @@ public class EstagioService {
 			throw new BusinessException("Aluno não Encontrado.");
 		}
 	}
+	
+	public List<Estagio> exibirEstagiosPorAluno(Long id) throws BusinessException {
+		
+		List<Estagio> estagio = estagioRepository.findByAlunoId(id);
+		
+		if(!estagio.isEmpty()) {
+			return estagio;
+		} else {
+			throw new BusinessException("Estágio não Encontrado.");
+		}
+	}
 }
