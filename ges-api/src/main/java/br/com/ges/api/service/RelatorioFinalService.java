@@ -2,6 +2,7 @@ package br.com.ges.api.service;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,11 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.ges.api.enums.StatusEstagio;
 import br.com.ges.api.enums.TipoAtividade;
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Estagio;
-import br.com.ges.api.model.RelatorioAtividade;
 import br.com.ges.api.model.RelatorioFinal;
 import br.com.ges.api.model.TipoAtividadeEstagiario;
 import br.com.ges.api.repository.EstagioRepository;
@@ -192,5 +193,31 @@ public class RelatorioFinalService {
 			return false;
 
 		return true;
+	}
+
+	public ResponseEntity<RelatorioFinal> entregaRelatorioFinal(RelatorioFinal relatorioFinal, HttpServletResponse response) throws BusinessException {
+
+		Optional<RelatorioFinal> relatorioFinalEntregue = relatorioFinalRepository.findById(relatorioFinal.getId());
+		Optional<Estagio> estagioRelatorioFinal = estagioRepository.findById(relatorioFinalEntregue.get().getEstagioRelatorioFinal().getId());
+		
+		
+		try {
+			relatorioFinalEntregue.get().setRelatorioEntregue(true);
+			estagioRelatorioFinal.get().setStatus(StatusEstagio.FINALIZADO);
+			
+			RelatorioFinal relatorioFinalEntregueFinalizado = relatorioFinalRepository.save(relatorioFinalEntregue.get());
+			estagioRepository.save(estagioRelatorioFinal.get());
+			
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+					.buildAndExpand(relatorioFinalEntregueFinalizado.getId()).toUri();
+			response.setHeader("Location", uri.toASCIIString());
+			
+			return ResponseEntity.created(uri).body(relatorioFinalEntregueFinalizado);
+			
+			
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		
 	}
 }

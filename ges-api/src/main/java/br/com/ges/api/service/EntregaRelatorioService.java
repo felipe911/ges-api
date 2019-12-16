@@ -69,7 +69,7 @@ public class EntregaRelatorioService {
 		
 		Estagio estagioDoAluno = estagioRepository.findByAluno(aluno.get());
 		List<RelatorioParcial> listaRelatorioParcial = relatorioParcialRepository.findByEstagioRelatorioParcialId(estagioDoAluno.getId());
-		RelatorioFinal relatoriFinal = relatorioFinalRepository.findByEstagioRelatorioFinalId(estagioDoAluno.getId());
+		RelatorioFinal relatoriFinal = relatorioFinalRepository.findByEstagioRelatorioFinalIdAndRelatorioEntregue(estagioDoAluno.getId(), false);
 		
 		entregaRelatorio.setEstagio(estagioDoAluno);
 		entregaRelatorio.setRelatorioParcial(listaRelatorioParcial);

@@ -58,6 +58,23 @@ public class RelatorioFinalController {
 	public RelatorioFinal listar(@RequestBody Aluno aluno) {
 		return relatorioFinalService.buscaRelatorioFinalDoAluno(aluno);
 	}
+	
+	/**
+	 * 
+	 * Entrega de Relatório Final
+	 * @throws BusinessException 
+	 * 
+	 */
+//	@ApiOperation(value = "Entrega de Relatório Final")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = RelatorioFinal.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@PostMapping(value = "/entrega-relatorio-final")
+	public ResponseEntity<RelatorioFinal> entregaRelatorioFinal(@RequestBody RelatorioFinal relatorioFinal, HttpServletResponse response) throws BusinessException {
+		return relatorioFinalService.entregaRelatorioFinal(relatorioFinal, response);
+	}
 
 	/**
 	 * 

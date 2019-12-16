@@ -8,4 +8,6 @@ public interface RelatorioFinalRepository extends JpaRepository<RelatorioFinal, 
 
 	RelatorioFinal findByEstagioRelatorioFinalId(Long id);
 
+	RelatorioFinal findByEstagioRelatorioFinalIdAndRelatorioEntregue(Long id, boolean b);
+
 }
