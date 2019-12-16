@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Estagio;
 import br.com.ges.api.service.EstagioService;
+import br.com.ges.api.wrapper.EstagiosQtdHorasWrapper;
 
 
 @RestController
@@ -65,7 +66,7 @@ public class EstagioController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@GetMapping("/busca-estagios-por-aluno/{id}")
-	public List<Estagio> exibirEstagiosPorAluno(@PathVariable Long id) throws BusinessException {
+	public EstagiosQtdHorasWrapper exibirEstagiosPorAluno(@PathVariable Long id) throws BusinessException {
 		return estagioService.exibirEstagiosPorAluno(id);
 	}
 	
