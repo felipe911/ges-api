@@ -147,4 +147,20 @@ public class ContratoController {
 		return contratoService.buscaContratoPorAluno(aluno);
 	}
 	
+	/**
+	 * 
+	 * Lista estatísticas das empresas
+	 * 
+	 */
+//	@ApiOperation(value = "Lista estatísticas das empresas")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@GetMapping("/estagiarios-contratados-mes")
+	public List<Integer> listarEstagiariosContratadosPorMes() {
+		return contratoService.listarEstagiariosContratadosPorMes();
+	}
+	
 }

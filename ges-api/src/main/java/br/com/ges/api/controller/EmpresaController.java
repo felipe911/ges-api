@@ -21,6 +21,7 @@ import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Empresa;
 import br.com.ges.api.service.EmpresaService;
 import br.com.ges.api.wrapper.AlunosDaEmpresaWrapper;
+import br.com.ges.api.wrapper.EmpresasContratacaoWrapper;
 
 @RestController
 @RequestMapping("/empresa")
@@ -62,6 +63,29 @@ public class EmpresaController {
 	public List<Empresa> listar() {
 		return empresaService.listar();
 	}
+	
+	
+	
+	
+	/**
+	 * 
+	 * Lista estatísticas das empresas
+	 * 
+	 */
+//	@ApiOperation(value = "Lista estatísticas das empresas")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Empresa.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@GetMapping("/busca-estatisticas-empresa")
+	public EmpresasContratacaoWrapper listarEmpresasContratacao() {
+		return empresaService.listarEmpresasContratacao();
+	}
+			
+			
+	
+	
 	
 	/**
 	 * Deleta um registro de Empresa caso ele exista

@@ -20,6 +20,7 @@ import br.com.ges.api.model.Estagio;
 import br.com.ges.api.repository.EmpresaRepository;
 import br.com.ges.api.repository.EstagioRepository;
 import br.com.ges.api.wrapper.AlunosDaEmpresaWrapper;
+import br.com.ges.api.wrapper.EmpresasContratacaoWrapper;
 
 @Service
 public class EmpresaService {
@@ -144,5 +145,24 @@ public class EmpresaService {
 		alunosDaEmpresa.setEmpresa(empresa.get());
 		
 		return alunosDaEmpresa;
+	}
+
+	public EmpresasContratacaoWrapper listarEmpresasContratacao() {
+		
+		EmpresasContratacaoWrapper empresaContratacao = new EmpresasContratacaoWrapper();
+		
+		empresaContratacao.setEmpresas(new ArrayList<>());
+		empresaContratacao.setQtdPorEmpresa(new ArrayList<>());
+		
+		List<Empresa> todasEmpresas = empresaRepository.findAll();
+		
+		todasEmpresas.removeIf(x -> x.getQtdEstagiariosAtivos() == 0);
+		
+		for (Empresa empresa : todasEmpresas) {
+			empresaContratacao.getQtdPorEmpresa().add(empresa.getQtdEstagiariosAtivos());
+			empresaContratacao.getEmpresas().add(empresa.getRazaoSocial());
+		}
+		
+		return empresaContratacao;
 	}
 }

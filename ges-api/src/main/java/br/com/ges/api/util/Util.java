@@ -16,5 +16,13 @@ public class Util {
 
 		return formatoString;
 	}
+	
+	public static Boolean estaEntre(LocalDate dataValidar, String dataInicio, String dataFim) {
+		
+		if(dataValidar.isAfter(LocalDate.parse(dataInicio)) && dataValidar.isBefore(LocalDate.parse(dataFim)))
+			return true;
+		
+		return false;
+	}
 
 }

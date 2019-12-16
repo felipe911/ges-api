@@ -2,6 +2,7 @@ package br.com.ges.api.service;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -220,5 +221,78 @@ public class ContratoService {
 			throw new BusinessException(CNE);
 		}
 		return null;
+	}
+
+
+	public List<Integer> listarEstagiariosContratadosPorMes() {
+		
+		List<Contrato> listaTodosContratos = contratoRepository.findAll();
+		List<Integer> listaEstagiariosPorMes = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+		
+		for (Contrato contrato : listaTodosContratos) {
+			
+			//2019
+			//Janeiro
+			if(Util.estaEntre(contrato.getDataInicio(), "2018-12-31", "2019-02-01")){
+				listaEstagiariosPorMes.set(0, listaEstagiariosPorMes.get(0) + 1);
+			}
+			
+			//Fevereiro
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-01-31", "2019-03-01")){
+				listaEstagiariosPorMes.set(1, listaEstagiariosPorMes.get(1) + 1);
+			}
+			
+			//Março
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-02-28", "2019-04-01")){
+				listaEstagiariosPorMes.set(2, listaEstagiariosPorMes.get(2) + 1);
+			}
+			
+			//Abril
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-03-31", "2019-05-01")){
+				listaEstagiariosPorMes.set(3, listaEstagiariosPorMes.get(3) + 1);
+			}
+			
+			//Maio
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-04-30", "2019-06-01")){
+				listaEstagiariosPorMes.set(4, listaEstagiariosPorMes.get(4) + 1);
+			}
+			
+			//Junho
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-05-31", "2019-07-01")){
+				listaEstagiariosPorMes.set(5, listaEstagiariosPorMes.get(5) + 1);
+			}
+			
+			//Julho
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-06-30", "2019-08-01")){
+				listaEstagiariosPorMes.set(6, listaEstagiariosPorMes.get(6) + 1);
+			}
+			
+			//Agosto
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-07-31", "2019-09-01")){
+				listaEstagiariosPorMes.set(7, listaEstagiariosPorMes.get(7) + 1);
+			}
+			
+			//Setembro
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-08-31", "2019-10-01")){
+				listaEstagiariosPorMes.set(8, listaEstagiariosPorMes.get(8) + 1);
+			}
+			
+			//Outubro
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-09-30", "2019-11-01")){
+				listaEstagiariosPorMes.set(9, listaEstagiariosPorMes.get(9) + 1);
+			}
+			
+			//Novembro
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-10-31", "2019-12-01")){
+				listaEstagiariosPorMes.set(10, listaEstagiariosPorMes.get(10) + 1);
+			}
+			
+			//Dezembro
+			if(Util.estaEntre(contrato.getDataInicio(), "2019-11-30", "2020-01-01")){
+				listaEstagiariosPorMes.set(11, listaEstagiariosPorMes.get(11) + 1);
+			}
+		}
+		
+		return listaEstagiariosPorMes;
 	}
 }
