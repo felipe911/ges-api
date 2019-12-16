@@ -2,7 +2,10 @@ package br.com.ges.api.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -100,8 +103,8 @@ public class RelatorioAtividadeController {
 //			@ApiResponse(code = 404, message = "Não encontrado"),
 //			@ApiResponse(code = 500, message = "Erro interno no servidor") })
 	@PostMapping()
-	public String salvar(@RequestBody RelatoriosAlunoWrapper relatoriosAlunoWrapper) throws BusinessException {
-		return relatorioAtividadeService.salvar(relatoriosAlunoWrapper);
+	public ResponseEntity<RelatorioAtividade> salvar(@RequestBody RelatoriosAlunoWrapper relatoriosAlunoWrapper, HttpServletResponse response ) throws BusinessException {
+		return relatorioAtividadeService.salvar(relatoriosAlunoWrapper, response);
 	}
 
 	/**
@@ -119,6 +122,22 @@ public class RelatorioAtividadeController {
 	public String atualizar(@PathVariable Long id, @RequestBody RelatorioAtividade relatorioAtividade)
 			throws BusinessException {
 		return relatorioAtividadeService.atualizar(id, relatorioAtividade);
+	}
+	
+	/**
+	 * 
+	 * Busca Estagios de um Aluno
+	 * 
+	 */
+//	@ApiOperation(value = "Busca Estagios de um Aluno")
+//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso", response = Estagio.class),
+//			@ApiResponse(code = 201, message = "Criado"), @ApiResponse(code = 204, message = "Sem conteúdo"),
+//			@ApiResponse(code = 401, message = "Sem autorização"), @ApiResponse(code = 403, message = "Proibido"),
+//			@ApiResponse(code = 404, message = "Não encontrado"),
+//			@ApiResponse(code = 500, message = "Erro interno no servidor") })
+	@GetMapping("/buscar-por-aluno-id/{id}")
+	public List<RelatorioAtividade> buscaRelatoriosAtividadePorAlunoId(@PathVariable Long id) throws BusinessException {
+		return relatorioAtividadeService.buscaRelatoriosAtividadePorAlunoId(id);
 	}
 
 }

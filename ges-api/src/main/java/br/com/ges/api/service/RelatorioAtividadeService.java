@@ -1,11 +1,18 @@
 package br.com.ges.api.service;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.ges.api.enums.StatusEstagio;
 import br.com.ges.api.exception.BusinessException;
 import br.com.ges.api.model.Aluno;
 import br.com.ges.api.model.Estagio;
@@ -56,17 +63,47 @@ public class RelatorioAtividadeService {
 
 	}
 
-	public String salvar(RelatoriosAlunoWrapper relatoriosAluno) {
+	public ResponseEntity<RelatorioAtividade> salvar(RelatoriosAlunoWrapper relatoriosAluno, HttpServletResponse response) throws BusinessException {
 
 		Estagio estagioAluno = estagioRepository.findByAluno(relatoriosAluno.getAluno());
 		RelatorioAtividade relatorioAtividade = new RelatorioAtividade();
 
 		relatorioAtividade = relatoriosAluno.getRelatorioAtividade();
-		relatorioAtividade.setEstagioRelatorioAtividade(estagioAluno);
-		relatorioAtividadeRepository.save(relatorioAtividade);
+		
+		if(verificaQtdHorasAtividade(relatorioAtividade.getQtdHoras(), relatoriosAluno.getAluno())) {
+			relatorioAtividade.setEstagioRelatorioAtividade(estagioAluno);
+			RelatorioAtividade relatorioAtividadeSalvo = relatorioAtividadeRepository.save(relatorioAtividade);
+			
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+					.buildAndExpand(relatorioAtividadeSalvo.getId()).toUri();
+			response.setHeader("Location", uri.toASCIIString());
+			return ResponseEntity.created(uri).body(relatorioAtividadeSalvo);
+			
+		} else {
+			
+			throw new BusinessException("Não foi possível adicionar este Relatório de Atividade, a quantidade de horas totais não poderá ultrapassar 240 Horas.");
+		}
+		
+		
 
-		return "Relatório de atividade salvo com sucesso.";
+	}
 
+	private boolean verificaQtdHorasAtividade(int qtdHoras, Aluno aluno) {
+		
+		Estagio estagioAluno = estagioRepository.findByAluno(aluno);
+		List<RelatorioAtividade> relatoriosAluno = relatorioAtividadeRepository
+				.findByEstagioRelatorioAtividadeId(estagioAluno.getId());
+		
+		int totalHorasAtuais = 0;
+		
+		for (RelatorioAtividade relatorioAtividade : relatoriosAluno) {
+			totalHorasAtuais+= relatorioAtividade.getQtdHoras();
+		}
+		
+		if(totalHorasAtuais + qtdHoras > 240)
+			return false;
+		
+		return true;
 	}
 
 	public String atualizar(Long id, RelatorioAtividade relatorioAtividade) throws BusinessException {
@@ -81,8 +118,22 @@ public class RelatorioAtividadeService {
 		} catch (Exception e) {
 			throw new BusinessException("Erro ao alterar o Relatório de Atividade.");
 		}
+	}
+	
+	public List<RelatorioAtividade> buscaRelatoriosAtividadePorAlunoId(Long id){
+		
+		Estagio estagioAtivo = new Estagio();
+		List<Estagio> listaEstagioPorIdAluno = estagioRepository.findByAlunoId(id);
+		List<RelatorioAtividade> relatoriosAtividadeDoAluno = new ArrayList<>();
+		
+		for (Estagio estagio : listaEstagioPorIdAluno) {
+			if(estagio.getStatus() == StatusEstagio.ATIVO)
+				estagioAtivo = estagio;
+		}
+		
+		relatoriosAtividadeDoAluno = relatorioAtividadeRepository.findByEstagioRelatorioAtividadeId(estagioAtivo.getId());
 
-
+		return relatoriosAtividadeDoAluno;
 	}
 
 }
